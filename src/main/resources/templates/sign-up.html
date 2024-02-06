@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up!</title>
+</head>
+<body>
+<h3>Please fill the sign in form</h3>
+<hr>
+
+<form th:action="@{/sign-up/save}"
+                 th:object="${userDetail}" method="POST">
+
+    <input type="text" th:field="*{username}" placeholder="username">
+    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
+    <br>
+    <input type="text" th:field="*{email}" placeholder="email">
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+    <br>
+    <input type="password" th:field="*{password}" placeholder="password">
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
+    <br>
+    <input type="text" th:field="*{firstName}" placeholder="first name">
+    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error"></span>
+    <br>
+    <input type="text" th:field="*{fullName}" placeholder="full name">
+    <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="error"></span>
+    <br>
+    <input type="date" th:field="*{dateOfBirth}" pattern="\d{4}-\d{2}-\d{2}">
+    <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="error"></span>
+    <br>
+    <input type="text" th:field="*{phoneNumber}" placeholder="phone number">
+    <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></span>
+    <br>
+    <input type="text" th:field="*{address}" placeholder="address">
+    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error"></span>
+    <br>
+    <input type="text" th:field="*{photo}" placeholder="photo">
+    <span th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" class="error"></span>
+
+
+    <button type="submit">Save</button>
+
+</form>
+
+</body>
+</html>
