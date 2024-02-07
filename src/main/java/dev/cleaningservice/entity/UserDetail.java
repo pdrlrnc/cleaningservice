@@ -31,13 +31,12 @@ public class UserDetail {
 
     @Column(name = "password")
     @NotEmpty(message = "Password is required")
-    @NotNull(message = "Password is required")
     @Length(min = 5, message = "Password should be at least 5 characters long")
     private String password;
 
     @Column(name = "first_name")
-    @NotEmpty(message = "Email is required")
-    @Length(min = 1, message = "Email is required")
+    @NotEmpty(message = "First name is required")
+    @Length(min = 1, message = "First name is required")
     private String firstName;
 
     @Column(name = "full_name")
