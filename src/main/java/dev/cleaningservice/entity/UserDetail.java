@@ -1,11 +1,13 @@
 package dev.cleaningservice.entity;
 
+import dev.cleaningservice.validation.MinAge;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 
@@ -15,49 +17,51 @@ public class UserDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_detail_id")
-    int id;
+    private int id;
 
     @NotEmpty(message = "Email is required")
     @Email(message = "Invalid email")
     @Column(name = "email")
-    String email;
+    private String email;
 
     @Column(name = "username")
     @NotEmpty(message = "Username is required")
     @Length(min = 1, message = "Username is required")
-    String username;
+    private String username;
 
     @Column(name = "password")
     @NotEmpty(message = "Password is required")
     @NotNull(message = "Password is required")
     @Length(min = 5, message = "Password should be at least 5 characters long")
-    String password;
+    private String password;
 
     @Column(name = "first_name")
     @NotEmpty(message = "Email is required")
     @Length(min = 1, message = "Email is required")
-    String firstName;
+    private String firstName;
 
     @Column(name = "full_name")
-    String fullName;
+    private String fullName;
 
-
-    Date dateOfBirth;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @MinAge
+    private Date dateOfBirth;
 
     @Column(name = "phone_number")
     @Pattern(regexp = "^(9[1236]\\d) ?(\\d{3}) ?(\\d{3})$", message = "Phone number must be valid")
-    String phoneNumber;
+    private String phoneNumber;
 
     @Column(name = "address")
-    String address;
+    private String address;
 
     @Column(name = "photo")
-    String photo;
+    private String photo;
 
     public UserDetail() {
     }
 
     public UserDetail(int id, String email, String username, String password, String firstName, String fullName, Date dateOfBirth, String phoneNumber, String address, String photo) {
+        System.out.println(dateOfBirth);
         this.id = id;
         this.email = email;
         this.username = username;
@@ -118,13 +122,9 @@ public class UserDetail {
         this.fullName = fullName;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
+    public Date getDateOfBirth() { return dateOfBirth; }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+    public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 
     public String getPhoneNumber() {
         return phoneNumber;

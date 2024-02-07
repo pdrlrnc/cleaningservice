@@ -61,6 +61,7 @@ public class HomepageController {
             BindingResult bindingResult, Model model){
 
         if(bindingResult.hasErrors()) {
+            System.out.println(userDetail);
             model.addAttribute("userDetail", userDetail);
             return "sign-up";
         }
