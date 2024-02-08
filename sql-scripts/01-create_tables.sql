@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS `user_detail`;
 DROP TABLE IF EXISTS `role`;
 DROP TABLE IF EXISTS `user_detail_role`;
 DROP TABLE IF EXISTS `user_photo`;
+DROP TABLE IF EXISTS `authorities`;
+DROP TABLE IF EXISTS `users`;
 
 -- Enable foreign key checks
 SET FOREIGN_KEY_CHECKS = 1;
@@ -45,6 +47,49 @@ CREATE TABLE IF NOT EXISTS `user_detail` (
     `address` VARCHAR(255),
     `photo_id` INT UNSIGNED
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `users`
+--
+CREATE TABLE `users` (
+  `username` varchar(50) NOT NULL,
+  `password` char(68) NOT NULL,
+  `enabled` tinyint NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Inserting data for table `users`, inserting the admin user
+--
+-- NOTE: The passwords are encrypted using BCrypt
+--
+-- A generation tool is avail at: https://www.bcryptcalculator.com/encode
+--
+-- Default password here is: admin
+INSERT INTO `users` 
+VALUES 
+('admin','{bcrypt}$2a$10$nUz5U2IlOO6Xi68Ey4i6Wuq.gTa0DdlZwyBOB3TenMbu57c1CR3jm',1),
+
+
+
+--
+-- Table structure for table `authorities`
+--
+CREATE TABLE `authorities` (
+  `username` varchar(50) NOT NULL,
+  `authority` varchar(50) NOT NULL,
+  UNIQUE KEY `authorities4_idx_1` (`username`,`authority`),
+  CONSTRAINT `authorities4_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Inserting data for table `authorities`
+--
+INSERT INTO `authorities` 
+VALUES 
+('admin','ROLE_ADMIN'),
+('admin','ROLE_CUSTOMER');
+
 
 
 

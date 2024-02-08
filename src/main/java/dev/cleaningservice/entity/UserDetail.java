@@ -29,11 +29,6 @@ public class UserDetail {
     @Length(min = 1, message = "Username is required")
     private String username;
 
-    @Column(name = "password")
-    @NotEmpty(message = "Password is required")
-    @Length(min = 5, message = "Password should be at least 5 characters long")
-    private String password;
-
     @Column(name = "first_name")
     @NotEmpty(message = "First name is required")
     @Length(min = 1, message = "First name is required")
@@ -56,12 +51,11 @@ public class UserDetail {
     public UserDetail() {
     }
 
-    public UserDetail(int id, String email, String username, String password, String firstName, String fullName, Date dateOfBirth, String phoneNumber, String address, String photo) {
+    public UserDetail(int id, String email, String username, String firstName, String fullName, Date dateOfBirth, String phoneNumber, String address, String photo) {
         System.out.println(dateOfBirth);
         this.id = id;
         this.email = email;
         this.username = username;
-        this.password = password;
         this.firstName = firstName;
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
@@ -91,14 +85,6 @@ public class UserDetail {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
@@ -144,7 +130,6 @@ public class UserDetail {
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +

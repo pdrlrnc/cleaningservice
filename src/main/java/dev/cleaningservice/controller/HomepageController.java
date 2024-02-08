@@ -71,6 +71,11 @@ public class HomepageController {
         return "home";
     }
 
+    @GetMapping("/login")
+    public String showLogin(){
+        return "login";
+    }
+
     //add initbinder to convert/strip input string
     //remove leading and trailing whitespace
     //resolve issues for our validation, namely to
