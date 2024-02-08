@@ -53,9 +53,6 @@ public class UserDetail {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "photo")
-    private String photo;
-
     public UserDetail() {
     }
 
@@ -70,7 +67,6 @@ public class UserDetail {
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.photo = photo;
     }
 
     public int getId() {
@@ -141,13 +137,6 @@ public class UserDetail {
         this.address = address;
     }
 
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
 
     @Override
     public String toString() {
@@ -161,7 +150,6 @@ public class UserDetail {
                 ", dateOfBirth=" + dateOfBirth +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
-                ", photo='" + photo + '\'' +
                 '}';
     }
 }
