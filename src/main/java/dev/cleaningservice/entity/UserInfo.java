@@ -4,19 +4,18 @@ import dev.cleaningservice.validation.MinAge;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 
-@Entity(name = "user_detail")
-public class UserDetail {
+@Entity(name = "user_info")
+public class UserInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_detail_id")
+    @Column(name = "user_info_id")
     private int id;
 
     @NotEmpty(message = "Email is required")
@@ -48,10 +47,10 @@ public class UserDetail {
     @Column(name = "address")
     private String address;
 
-    public UserDetail() {
+    public UserInfo() {
     }
 
-    public UserDetail(int id, String email, String username, String firstName, String fullName, Date dateOfBirth, String phoneNumber, String address, String photo) {
+    public UserInfo(int id, String email, String username, String firstName, String fullName, Date dateOfBirth, String phoneNumber, String address, String photo) {
         System.out.println(dateOfBirth);
         this.id = id;
         this.email = email;
@@ -126,7 +125,7 @@ public class UserDetail {
 
     @Override
     public String toString() {
-        return "UserDetail{" +
+        return "UserInfo{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +

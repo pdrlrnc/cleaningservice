@@ -5,11 +5,11 @@
     <title>Sign up!</title>
 </head>
 <body>
-<h3>Please fill the sign in form</h3>
+<h3>Profile</h3>
 <hr>
 
-<form th:action="@{/sign-up/save}"
-                 th:object="${userDetail}" method="POST">
+<form th:action="@{/profile/save}"
+                 th:object="${userInfo}" method="POST">
 
     <input type="text" th:field="*{username}" placeholder="username">
     <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>

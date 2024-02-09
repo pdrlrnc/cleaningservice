@@ -1,9 +1,9 @@
 package dev.cleaningservice.controller;
 
 import dev.cleaningservice.entity.Role;
-import dev.cleaningservice.entity.UserDetail;
+import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.service.RoleService;
-import dev.cleaningservice.service.UserDetailService;
+import dev.cleaningservice.service.UserInfoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -23,50 +23,43 @@ public class HomepageController {
 
     private RoleService roleService;
 
-    private UserDetailService userDetailService;
+    private UserInfoService userInfoService;
 
     @Autowired
-    public HomepageController(RoleService roleService, UserDetailService userDetailService){
+    public HomepageController(RoleService roleService, UserInfoService userInfoService){
 
         this.roleService = roleService;
-        this.userDetailService = userDetailService;
+        this.userInfoService = userInfoService;
     }
 
     @GetMapping("/")
     public String showHomePage(Model model){
 
-        //get roles from database
-        List<Role> listRole = roleService.findAll();
-
-        //add the list to the model
-        model.addAttribute("listRole", listRole);
-
-        //return name of the template view
         return "home";
     }
 
-    @GetMapping("/sign-up")
+    @GetMapping("/profile")
     public String showSignUpPage(Model model){
 
-        UserDetail userDetail = new UserDetail();
+        UserInfo userInfo = new UserInfo();
 
-        model.addAttribute("userDetail", userDetail);
+        model.addAttribute("userInfo", userInfo);
 
-        return "sign-up";
+        return "profile";
     }
 
-    @PostMapping("/sign-up/save")
+    @PostMapping("/profile/save")
     public String save(
-            @Valid @ModelAttribute("userDetail") UserDetail userDetail,
+            @Valid @ModelAttribute("userInfo") UserInfo userInfo,
             BindingResult bindingResult, Model model){
 
         if(bindingResult.hasErrors()) {
-            System.out.println(userDetail);
-            model.addAttribute("userDetail", userDetail);
-            return "sign-up";
+            System.out.println(userInfo);
+            model.addAttribute("userInfo", userInfo);
+            return "profile";
         }
 
-        userDetailService.save(userDetail);
+        userInfoService.save(userInfo);
 
         return "home";
     }

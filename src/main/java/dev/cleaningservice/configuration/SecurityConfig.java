@@ -23,6 +23,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                         configurer
+                                .requestMatchers("/", "/profile").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->
