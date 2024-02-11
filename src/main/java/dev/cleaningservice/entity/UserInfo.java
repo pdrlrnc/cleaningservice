@@ -16,7 +16,7 @@ public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_info_id")
-    private int id;
+    private Long id;
 
     @NotEmpty(message = "Email is required")
     @Email(message = "Invalid email")
@@ -50,7 +50,7 @@ public class UserInfo {
     public UserInfo() {
     }
 
-    public UserInfo(int id, String email, String username, String firstName, String fullName, Date dateOfBirth, String phoneNumber, String address, String photo) {
+    public UserInfo(Long id, String email, String username, String firstName, String fullName, Date dateOfBirth, String phoneNumber, String address, String photo) {
         System.out.println(dateOfBirth);
         this.id = id;
         this.email = email;
@@ -62,11 +62,11 @@ public class UserInfo {
         this.address = address;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

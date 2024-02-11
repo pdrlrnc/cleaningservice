@@ -1,6 +1,6 @@
 package dev.cleaningservice.controller;
 
-import dev.cleaningservice.entity.Role;
+import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.service.RoleService;
 import dev.cleaningservice.service.UserInfoService;
@@ -11,12 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomepageController {
@@ -67,6 +62,33 @@ public class HomepageController {
     @GetMapping("/login")
     public String showLogin(){
         return "login";
+    }
+
+    @GetMapping("/sign-up")
+    public String showSignUp(Model model){
+        UserEntity userEntity = new UserEntity();
+        model.addAttribute("userEntity", userEntity);
+        return "sign-up";
+    }
+
+    @PostMapping("/sign-up/save")
+    public String saveSignUp(@Valid @RequestParam("userEntity") UserEntity userEntity,
+                             BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("userEntity", userEntity);
+            return "sign-up";
+        }
+
+        UserInfo userInfo = userInfoService.findUserInfoByUsername(userEntity.getUsername());
+        if(userInfo == null){
+            //how to have error message? maybe add a model attribute with the string error?
+            return "sign-up";
+        }
+
+        //add userEntity to db
+
+        model.addAttribute("userInfo", userInfo);
+        return "profile";
     }
 
     //add initbinder to convert/strip input string

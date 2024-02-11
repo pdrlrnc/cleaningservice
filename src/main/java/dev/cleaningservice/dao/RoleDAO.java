@@ -10,4 +10,6 @@ public interface RoleDAO {
 
     public List<Role> findAll();
 
+    public Role findByName(String name);
+
 }
