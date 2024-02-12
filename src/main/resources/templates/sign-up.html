@@ -7,12 +7,14 @@
 <body>
 
 <form th:action="@{/sign-up/save}"
-      th:object ="${userEntity}"  action="POST">
+      th:object ="${registrationDTO}"  method="POST">
 
     Username: <input type="text" th:field="*{username}" placeholder="username">
     Password: <input type="password" th:field="*{password}" placeholder="password">
+    Email: <input type="text" th:field="*{email}" placeholder="email">
+    First name: <input type="text" th:field="*{firstName}" placeholder="first name">
 
-    <input type="submit" value="Sign up" />
+    <button type = "submit">Sign up</button>
 
 </form>
 

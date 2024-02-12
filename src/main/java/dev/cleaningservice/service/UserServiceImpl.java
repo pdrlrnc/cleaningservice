@@ -7,8 +7,10 @@ import dev.cleaningservice.dto.RegistrationDTO;
 import dev.cleaningservice.entity.Role;
 import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,16 +23,21 @@ public class UserServiceImpl implements UserService {
 
     private RoleDAO roleDAO;
 
+    private UserInfoService userInfoService;
+
     @Autowired
-    public UserServiceImpl (UserEntityDAO userEntityDAO, UserInfoDAO userInfoDAO, RoleDAO roleDAO){
+    public UserServiceImpl (UserEntityDAO userEntityDAO, UserInfoDAO userInfoDAO,
+                            RoleDAO roleDAO, UserInfoService userInfoService){
         this.userEntityDAO = userEntityDAO;
         this.userInfoDAO = userInfoDAO;
         this.roleDAO = roleDAO;
+        this.userInfoService = userInfoService;
     }
 
 
     @Override
-    public void save(RegistrationDTO registrationDTO) {
+    @Transactional
+    public UserInfo save(RegistrationDTO registrationDTO) {
 
 
         //creating userEntity
@@ -47,11 +54,13 @@ public class UserServiceImpl implements UserService {
         UserInfo userInfo = new UserInfo();
         userInfo.setUsername(registrationDTO.getUsername());
         userInfo.setEmail(registrationDTO.getEmail());
-        userInfo.setId(userEntity.getId());
         userInfo.setFirstName(registrationDTO.getFirstName());
+
+        System.out.println("\n\n\n\n" + userInfo + "\n\n\n\n");
 
         //saving userInfo
         userInfoDAO.save(userInfo);
+        return userInfo;
 
     }
 }

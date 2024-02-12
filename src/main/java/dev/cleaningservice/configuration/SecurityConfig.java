@@ -23,8 +23,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/", "/profile", "/profile/save").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers("/", "/sign-up", "/sign-up/save").permitAll()
+                                .anyRequest().permitAll()
                 )
                 .formLogin(form ->
                         form

@@ -11,5 +11,7 @@ public interface UserInfoDAO {
 
     public UserInfo findUserInfoByUsername(String username);
 
+    public void merge(UserInfo userInfo);
+
 
 }

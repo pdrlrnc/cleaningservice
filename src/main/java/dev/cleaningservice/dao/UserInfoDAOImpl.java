@@ -22,12 +22,15 @@ public class UserInfoDAOImpl implements UserInfoDAO {
         return entityManager.find(UserInfo.class, id);
     }
 
-
+    @Override
+    @Transactional
+    public void merge(UserInfo userInfo){
+        entityManager.merge(userInfo);
+    }
 
     @Override
     @Transactional
     public void save(UserInfo userInfo) {
-
         entityManager.persist(userInfo);
     }
 

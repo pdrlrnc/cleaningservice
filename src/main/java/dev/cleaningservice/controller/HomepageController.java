@@ -1,9 +1,11 @@
 package dev.cleaningservice.controller;
 
+import dev.cleaningservice.dto.RegistrationDTO;
 import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.service.RoleService;
 import dev.cleaningservice.service.UserInfoService;
+import dev.cleaningservice.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -20,11 +22,14 @@ public class HomepageController {
 
     private UserInfoService userInfoService;
 
+    private UserService userService;
+
     @Autowired
-    public HomepageController(RoleService roleService, UserInfoService userInfoService){
+    public HomepageController(RoleService roleService, UserInfoService userInfoService, UserService userService){
 
         this.roleService = roleService;
         this.userInfoService = userInfoService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -66,26 +71,22 @@ public class HomepageController {
 
     @GetMapping("/sign-up")
     public String showSignUp(Model model){
-        UserEntity userEntity = new UserEntity();
-        model.addAttribute("userEntity", userEntity);
+        RegistrationDTO registrationDTO = new RegistrationDTO();
+        model.addAttribute("registrationDTO", registrationDTO);
         return "sign-up";
     }
 
     @PostMapping("/sign-up/save")
-    public String saveSignUp(@Valid @RequestParam("userEntity") UserEntity userEntity,
+    public String save(@Valid @ModelAttribute("registrationDTO") RegistrationDTO registrationDTO,
                              BindingResult bindingResult, Model model){
-        if(bindingResult.hasErrors()){
-            model.addAttribute("userEntity", userEntity);
-            return "sign-up";
-        }
 
-        UserInfo userInfo = userInfoService.findUserInfoByUsername(userEntity.getUsername());
-        if(userInfo == null){
-            //how to have error message? maybe add a model attribute with the string error?
+        if(bindingResult.hasErrors()){
+            model.addAttribute("registrationDTO", registrationDTO);
             return "sign-up";
         }
 
         //add userEntity to db
+        UserInfo userInfo = userService.save(registrationDTO);
 
         model.addAttribute("userInfo", userInfo);
         return "profile";
