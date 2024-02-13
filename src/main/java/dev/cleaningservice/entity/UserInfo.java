@@ -51,7 +51,6 @@ public class UserInfo {
     }
 
     public UserInfo(Long id, String email, String username, String firstName, String fullName, Date dateOfBirth, String phoneNumber, String address, String photo) {
-        System.out.println(dateOfBirth);
         this.id = id;
         this.email = email;
         this.username = username;

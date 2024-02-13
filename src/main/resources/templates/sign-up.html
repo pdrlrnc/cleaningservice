@@ -10,13 +10,22 @@
       th:object ="${registrationDTO}"  method="POST">
 
     Username: <input type="text" th:field="*{username}" placeholder="username">
-    Password: <input type="password" th:field="*{password}" placeholder="password">
+    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
+    <br>
+    Password: <input type="password" th:field="*{password}" placeholder="password"> Should be at least 5 characters long and contain at least one uppercase letter and one number
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
+    <br>
     Email: <input type="text" th:field="*{email}" placeholder="email">
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+    <br>
     First name: <input type="text" th:field="*{firstName}" placeholder="first name">
+    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error"></span>
+    <br>
 
     <button type = "submit">Sign up</button>
 
 </form>
-
+<br><br>
+Already have an account? Sign in <a th:href="@{/login}">here</a>!
 </body>
 </html>

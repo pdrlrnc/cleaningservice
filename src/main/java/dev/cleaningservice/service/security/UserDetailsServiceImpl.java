@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,11 +26,15 @@ public class UserDetailsServiceImpl implements UserSecService {
 
     private UserInfoDAO userInfoDAO;
 
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
-    public UserDetailsServiceImpl(UserEntityDAO userEntityDAO, RoleDAO roleDAO, UserInfoDAO userInfoDAO){
+    public UserDetailsServiceImpl(UserEntityDAO userEntityDAO, RoleDAO roleDAO,
+                                  UserInfoDAO userInfoDAO, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.userEntityDAO = userEntityDAO;
         this.roleDAO = roleDAO;
         this.userInfoDAO = userInfoDAO;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 
     }
 
@@ -39,7 +43,6 @@ public class UserDetailsServiceImpl implements UserSecService {
         UserEntity userEntity = userEntityDAO.findByUsername(username);
 
         if(userEntity != null){
-            System.out.println(userEntity.getUsername() + "\n\n\n\n\n");
 
             User authenticatedUser = new User(userEntity.getUsername(), userEntity.getPassword(),
                     userEntity.getRoles().stream().map((role) -> new SimpleGrantedAuthority(role.getName()))
@@ -60,12 +63,11 @@ public class UserDetailsServiceImpl implements UserSecService {
 
     @Override
     @Transactional
-    public UserInfo save(RegistrationDTO registrationDTO) {
-
+    public void save(RegistrationDTO registrationDTO) {
 
         //creating userEntity
         UserEntity userEntity = new UserEntity();
-        userEntity.setPassword(registrationDTO.getPassword());
+        userEntity.setPassword(bCryptPasswordEncoder.encode(registrationDTO.getPassword()));
         userEntity.setUsername(registrationDTO.getUsername());
         Role role = roleDAO.findByName("ROLE_CUSTOMER");
         userEntity.addRole(role);
@@ -79,11 +81,8 @@ public class UserDetailsServiceImpl implements UserSecService {
         userInfo.setEmail(registrationDTO.getEmail());
         userInfo.setFirstName(registrationDTO.getFirstName());
 
-        System.out.println("\n\n\n\n" + userInfo + "\n\n\n\n");
-
         //saving userInfo
         userInfoDAO.save(userInfo);
-        return userInfo;
 
     }
 }

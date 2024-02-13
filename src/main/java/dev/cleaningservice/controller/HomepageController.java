@@ -1,11 +1,11 @@
 package dev.cleaningservice.controller;
 
 import dev.cleaningservice.dto.RegistrationDTO;
-import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.service.RoleService;
 import dev.cleaningservice.service.UserInfoService;
-import dev.cleaningservice.service.UserService;
+import dev.cleaningservice.service.security.UserSecService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -22,10 +22,10 @@ public class HomepageController {
 
     private UserInfoService userInfoService;
 
-    private UserService userService;
+    private UserSecService userService;
 
     @Autowired
-    public HomepageController(RoleService roleService, UserInfoService userInfoService, UserService userService){
+    public HomepageController(RoleService roleService, UserInfoService userInfoService, UserSecService userService){
 
         this.roleService = roleService;
         this.userInfoService = userInfoService;
@@ -54,7 +54,6 @@ public class HomepageController {
             BindingResult bindingResult, Model model){
 
         if(bindingResult.hasErrors()) {
-            System.out.println(userInfo);
             model.addAttribute("userInfo", userInfo);
             return "profile";
         }
@@ -78,7 +77,7 @@ public class HomepageController {
 
     @PostMapping("/sign-up/save")
     public String save(@Valid @ModelAttribute("registrationDTO") RegistrationDTO registrationDTO,
-                             BindingResult bindingResult, Model model){
+                       BindingResult bindingResult, Model model){
 
         if(bindingResult.hasErrors()){
             model.addAttribute("registrationDTO", registrationDTO);
@@ -86,10 +85,12 @@ public class HomepageController {
         }
 
         //add userEntity to db
-        UserInfo userInfo = userService.save(registrationDTO);
+        userService.save(registrationDTO);
 
-        model.addAttribute("userInfo", userInfo);
-        return "profile";
+        model.addAttribute("signup", true);
+
+        //get back to login so user can authenticate
+        return "login";
     }
 
     //add initbinder to convert/strip input string

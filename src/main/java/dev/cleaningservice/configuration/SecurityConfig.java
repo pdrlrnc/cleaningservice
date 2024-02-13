@@ -1,6 +1,5 @@
 package dev.cleaningservice.configuration;
 
-import dev.cleaningservice.service.UserService;
 import dev.cleaningservice.service.security.UserSecService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

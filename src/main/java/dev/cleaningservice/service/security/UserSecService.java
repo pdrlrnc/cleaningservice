@@ -9,7 +9,7 @@ public interface UserSecService extends UserDetailsService {
 
     public UserEntity findByUseName(String username);
 
-    public UserInfo save(RegistrationDTO registrationDTO);
+    public void save(RegistrationDTO registrationDTO);
 
 
 }

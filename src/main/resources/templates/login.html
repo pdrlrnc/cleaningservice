@@ -5,6 +5,13 @@
     <title>Login</title>
 </head>
 <body>
+<div th:if="${param.error != null}">
+    <p>Invalid username or password</p>
+</div>
+<div th:object="${signup}" th:if="${signup == true && param.error == null}">
+    <p>Success creating your account!</p>
+</div>
+<br>
 <form th:action="@{/authenticateUser}" method="POST">
 
     Username:  <input type="text" name="username" />
@@ -14,5 +21,8 @@
     <input type="submit" value="Login" />
 
 </form>
+<br><br>
+Don't have an account? Create one <a th:href="@{/sign-up}">here</a>!
+
 </body>
 </html>
