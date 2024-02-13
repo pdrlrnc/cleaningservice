@@ -14,5 +14,4 @@ public interface UserInfoDAO {
 
     public UserInfo findUserInfoByEmail(String email);
 
-
 }

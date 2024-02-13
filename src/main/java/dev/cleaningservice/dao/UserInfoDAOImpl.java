@@ -14,8 +14,12 @@ public class UserInfoDAOImpl implements UserInfoDAO {
     @Autowired
     EntityManager entityManager;
 
-    public UserInfoDAOImpl(EntityManager entityManager) {
+    @Autowired
+    UserEntityDAO userEntityDAO;
+
+    public UserInfoDAOImpl(EntityManager entityManager, UserEntityDAO userEntityDAO) {
         this.entityManager = entityManager;
+        this.userEntityDAO = userEntityDAO;
     }
 
     @Override
@@ -41,7 +45,8 @@ public class UserInfoDAOImpl implements UserInfoDAO {
     @Override
     @Transactional
     public void save(UserInfo userInfo) {
-        entityManager.persist(userInfo);
+        entityManager.merge(userInfo);
+
     }
 
     @Override

@@ -7,4 +7,5 @@ public interface UserEntityDAO {
     public UserEntity findByUsername(String username);
 
     public void save(UserEntity userEntity);
+
 }

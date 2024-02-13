@@ -11,11 +11,16 @@
 <form th:action="@{/profile/save}"
                  th:object="${userInfo}" method="POST">
 
+    <!-- Hidden form field to handle update-->
+    <input type="hidden" th:field="*{id}">
+
     <input type="text" th:field="*{username}" placeholder="username">
     <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
+    <span th:if="${usernameError}" th:text="${usernameError}"></span>
     <br>
     <input type="text" th:field="*{email}" placeholder="email">
     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+    <span th:if="${emailError}" th:text="${emailError}"></span>
     <br>
     <input type="text" th:field="*{firstName}" placeholder="first name">
     <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error"></span>

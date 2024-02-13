@@ -32,5 +32,6 @@ public class UserEntityDAOImpl implements UserEntityDAO {
     public void save(UserEntity userEntity) {
         entityManager.persist(userEntity);
     }
+
 }
 
