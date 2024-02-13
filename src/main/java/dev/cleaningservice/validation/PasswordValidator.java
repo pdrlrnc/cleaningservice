@@ -9,6 +9,9 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
+        if(password == null || password.isBlank())
+            return true;
+
         String regex = "^(?=.*[A-Z])(?=.*\\d).{" + size + ",}$";
         return password.matches(regex);
     }

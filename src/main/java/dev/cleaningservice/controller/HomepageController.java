@@ -5,6 +5,7 @@ import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.service.RoleService;
 import dev.cleaningservice.service.UserInfoService;
 import dev.cleaningservice.service.security.UserSecService;
+import jakarta.persistence.NoResultException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,17 @@ public class HomepageController {
 
         if(bindingResult.hasErrors()){
             model.addAttribute("registrationDTO", registrationDTO);
+            return "sign-up";
+        }
+
+        if(userInfoService.findUserInfoByUsername(registrationDTO.getUsername()) != null) {
+            model.addAttribute("registrationDTO", registrationDTO);
+            model.addAttribute("usernameExists", true);
+            return "sign-up";
+        }
+        if(userInfoService.findUserInfoByEmail(registrationDTO.getEmail()) != null) {
+            model.addAttribute("registrationDTO", registrationDTO);
+            model.addAttribute("emailExists", true);
             return "sign-up";
         }
 

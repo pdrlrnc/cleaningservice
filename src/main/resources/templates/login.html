@@ -8,7 +8,7 @@
 <div th:if="${param.error != null}">
     <p>Invalid username or password</p>
 </div>
-<div th:object="${signup}" th:if="${signup == true && param.error == null}">
+<div th:object="${signup}" th:if="${signup == true}">
     <p>Success creating your account!</p>
 </div>
 <br>

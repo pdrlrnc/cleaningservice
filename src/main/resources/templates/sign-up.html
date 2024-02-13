@@ -25,6 +25,12 @@
     <button type = "submit">Sign up</button>
 
 </form>
+<div th:object="${usernameExists}" th:if="${usernameExists == true && param.error == null}">
+    <p>Username already exists</p>
+</div>
+<div th:object="${emailExists}" th:if="${emailExists == true && param.error == null}">
+    <p>Email already exists</p>
+</div>
 <br><br>
 Already have an account? Sign in <a th:href="@{/login}">here</a>!
 </body>

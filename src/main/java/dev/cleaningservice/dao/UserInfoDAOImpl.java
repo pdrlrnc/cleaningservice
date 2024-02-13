@@ -2,6 +2,7 @@ package dev.cleaningservice.dao;
 
 import dev.cleaningservice.entity.UserInfo;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ public class UserInfoDAOImpl implements UserInfoDAO {
     @Autowired
     EntityManager entityManager;
 
-    public UserInfoDAOImpl(EntityManager entityManager){
+    public UserInfoDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -22,10 +23,19 @@ public class UserInfoDAOImpl implements UserInfoDAO {
         return entityManager.find(UserInfo.class, id);
     }
 
+
     @Override
-    @Transactional
-    public void merge(UserInfo userInfo){
-        entityManager.merge(userInfo);
+    public UserInfo findUserInfoByEmail(String email) {
+        TypedQuery<UserInfo> query = entityManager.createQuery(
+                "SELECT u FROM user_info u WHERE u.email = :email", UserInfo.class);
+        query.setParameter("email", email);
+        UserInfo userInfo;
+        try {
+            userInfo = query.getSingleResult();
+        } catch (NoResultException nre) {
+            userInfo = null;
+        }
+        return userInfo;
     }
 
     @Override
@@ -39,6 +49,12 @@ public class UserInfoDAOImpl implements UserInfoDAO {
         TypedQuery<UserInfo> query = entityManager.createQuery(
                 "SELECT u FROM user_info u WHERE u.username = :username", UserInfo.class);
         query.setParameter("username", username);
-        return query.getSingleResult();
+        UserInfo userInfo;
+        try {
+            userInfo = query.getSingleResult();
+        } catch (NoResultException nre) {
+            userInfo = null;
+        }
+        return userInfo;
     }
 }

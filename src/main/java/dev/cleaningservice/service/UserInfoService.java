@@ -9,4 +9,6 @@ public interface UserInfoService {
     public void save(UserInfo userInfo);
 
     public UserInfo findUserInfoByUsername(String username);
+
+    public UserInfo findUserInfoByEmail(String email);
 }
