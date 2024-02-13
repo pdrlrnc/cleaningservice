@@ -24,4 +24,6 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<UserEntity> users = new ArrayList<>();
 
+    public String getName(){ return name; }
+
 }

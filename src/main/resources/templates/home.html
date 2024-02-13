@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Cleaning Service</title>
@@ -11,8 +11,7 @@ Welcome to Cleaning Service! We pride ourselves in matching great cleaners to ou
 <br><br>
 
 
-
-Sign in <a th:href="@{/sign-up}">Sign Up</a> <a th:href="@{/profile}">Profile</a>
+<a th:href="@{/login}">Sign in</a> <a th:href="@{/sign-up}">Sign Up</a> <a th:href="@{/profile}" sec:authorize="hasRole('ROLE_CUSTOMER')">Profile</a>
 
 </body>
 </html>
