@@ -1,5 +1,6 @@
 package dev.cleaningservice.controller;
 
+import dev.cleaningservice.dto.ProfileDTO;
 import dev.cleaningservice.dto.RegistrationDTO;
 import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -53,29 +55,38 @@ public class HomepageController {
 
         UserInfo userInfo = userInfoService.findUserInfoByUsername(userEntity.getUsername());
 
-        model.addAttribute("userInfo", userInfo);
+        ProfileDTO profileDTO = new ProfileDTO(userInfo.getId(), userInfo.getUsername(), userInfo.getEmail(),
+        userInfo.getFirstName(), userInfo.getFullName(), userInfo.getDateOfBirth(), userInfo.getPhoneNumber(), userInfo.getAddress());
+
+        model.addAttribute("profileDTO", profileDTO);
 
         return "profile";
     }
 
     @PostMapping("/profile/save")
     public String saveProfile(
-            @Valid @ModelAttribute("userInfo") UserInfo userInfo,
-            BindingResult bindingResult, Model model) {
+            @Valid @ModelAttribute("profileDTO") ProfileDTO profileDTO,
+            BindingResult bindingResult, Model model, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("userInfo", userInfo);
+            model.addAttribute("profileDTO", profileDTO);
             return "profile";
         }
         try {
-            userInfoService.save(userInfo);
+            userInfoService.save(profileDTO);
         } catch (EmailAlreadyExistsException eaee) {
-            model.addAttribute("emailError", userInfo.getEmail() + " is already taken");
+            model.addAttribute("emailError", profileDTO.getEmail() + " is already taken");
             return "profile";
         } catch (UsernameAlreadyExistsException uaee) {
-            model.addAttribute("usernameError", userInfo.getUsername() + " is already taken");
+            model.addAttribute("usernameError", profileDTO.getUsername() + " is already taken");
             return "profile";
         }
+
+        HttpSession session = request.getSession();
+        UserEntity loggedUser = (UserEntity) session.getAttribute("user");
+        loggedUser.setUsername(profileDTO.getUsername());
+        session.setAttribute("user", loggedUser);
+
         return "home";
     }
 

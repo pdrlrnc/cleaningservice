@@ -9,10 +9,10 @@
 <hr>
 
 <form th:action="@{/profile/save}"
-                 th:object="${userInfo}" method="POST">
+                 th:object="${profileDTO}" method="POST">
 
     <!-- Hidden form field to handle update-->
-    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{userInfoId}">
 
     <input type="text" th:field="*{username}" placeholder="username">
     <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>

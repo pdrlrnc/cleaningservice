@@ -7,8 +7,7 @@ import org.springframework.core.SpringVersion;
 @SpringBootApplication
 public class CleaningserviceApplication {
 
-	public static void main(String[] args) {System.out.println("Spring version: " + SpringVersion.getVersion());
-		SpringApplication.run(CleaningserviceApplication.class, args);
+	public static void main(String[] args) {SpringApplication.run(CleaningserviceApplication.class, args);
 	}
 
 }

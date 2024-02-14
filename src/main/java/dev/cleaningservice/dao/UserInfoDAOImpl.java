@@ -1,5 +1,6 @@
 package dev.cleaningservice.dao;
 
+import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -23,7 +24,7 @@ public class UserInfoDAOImpl implements UserInfoDAO {
     }
 
     @Override
-    public UserInfo findUserInfoById(int id) {
+    public UserInfo findUserInfoById(Long id) {
         return entityManager.find(UserInfo.class, id);
     }
 
@@ -51,12 +52,23 @@ public class UserInfoDAOImpl implements UserInfoDAO {
 
     @Override
     public UserInfo findUserInfoByUsername(String username) {
-        TypedQuery<UserInfo> query = entityManager.createQuery(
-                "SELECT u FROM user_info u WHERE u.username = :username", UserInfo.class);
+        TypedQuery<UserEntity> query = entityManager.createQuery(
+                "SELECT u FROM users u WHERE u.username = :username", UserEntity.class);
         query.setParameter("username", username);
+        UserEntity userEntity;
+        try {
+            userEntity = query.getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+
+
+        TypedQuery<UserInfo> query2 = entityManager.createQuery(
+                "SELECT u FROM user_info u WHERE u.userEntity = :user_entity", UserInfo.class);
+        query2.setParameter("user_entity", userEntity);
         UserInfo userInfo;
         try {
-            userInfo = query.getSingleResult();
+            userInfo = query2.getSingleResult();
         } catch (NoResultException nre) {
             userInfo = null;
         }

@@ -5,7 +5,7 @@ import dev.cleaningservice.entity.UserInfo;
 
 public interface UserInfoDAO {
 
-    public UserInfo findUserInfoById(int id);
+    public UserInfo findUserInfoById(Long id);
 
     public void save(UserInfo userInfo);
 

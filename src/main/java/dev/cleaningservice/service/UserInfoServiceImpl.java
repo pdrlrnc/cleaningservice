@@ -1,6 +1,7 @@
 package dev.cleaningservice.service;
 
 import dev.cleaningservice.dao.UserInfoDAO;
+import dev.cleaningservice.dto.ProfileDTO;
 import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.validation.EmailAlreadyExistsException;
 import dev.cleaningservice.validation.UsernameAlreadyExistsException;
@@ -19,24 +20,35 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public UserInfo findUserInfoById(int id) {
+    public UserInfo findUserInfoById(Long id) {
         return userInfoDAO.findUserInfoById(id);
     }
 
     @Override
-    public void save(UserInfo userInfo) throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
-        UserInfo checkUsername = findUserInfoByUsername(userInfo.getUsername());
-        UserInfo checkEmail = findUserInfoByEmail(userInfo.getEmail());
+    public void save(ProfileDTO profileDTO) throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
+        UserInfo userInfo = userInfoDAO.findUserInfoById(profileDTO.getUserInfoId());
+
+        UserInfo checkUsername = findUserInfoByUsername(profileDTO.getUsername());
+        UserInfo checkEmail = findUserInfoByEmail(profileDTO.getEmail());
 
         if(checkUsername != null)
-        if(!Objects.equals(checkUsername.getId(), userInfo.getId()))
+            if(!Objects.equals(checkUsername.getId(), userInfo.getId()))
                 throw new UsernameAlreadyExistsException("that username is already taken!");
 
-        if(checkEmail != null)
-        if(!Objects.equals(checkEmail.getId(), userInfo.getId()))
-                throw new EmailAlreadyExistsException("that email is already used!");
+        userInfo.setUsername(profileDTO.getUsername());
 
-        System.out.println(userInfo);
+
+        if(checkEmail != null)
+            if(!Objects.equals(checkEmail.getId(), userInfo.getId()))
+                throw new EmailAlreadyExistsException("that email is already taken!");
+
+        userInfo.setEmail(profileDTO.getEmail());
+
+        userInfo.setFirstName(profileDTO.getFirstName());
+        userInfo.setFullName(profileDTO.getFullName());
+        userInfo.setDateOfBirth(profileDTO.getDateOfBirth());
+        userInfo.setPhoneNumber(profileDTO.getPhoneNumber());
+        userInfo.setAddress(profileDTO.getAddress());
 
         userInfoDAO.save(userInfo);
     }

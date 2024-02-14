@@ -72,14 +72,11 @@ public class UserDetailsServiceImpl implements UserSecService {
         Role role = roleDAO.findByName("ROLE_CUSTOMER");
         userEntity.addRole(role);
 
-        //saving userEntity
-        userEntityDAO.save(userEntity);
-
         //creating userInfo
         UserInfo userInfo = new UserInfo();
-        userInfo.setUsername(registrationDTO.getUsername());
         userInfo.setEmail(registrationDTO.getEmail());
         userInfo.setFirstName(registrationDTO.getFirstName());
+        userInfo.setUserEntity(userEntity);
 
         //saving userInfo
         userInfoDAO.save(userInfo);
