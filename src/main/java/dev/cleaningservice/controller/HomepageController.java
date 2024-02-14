@@ -1,5 +1,6 @@
 package dev.cleaningservice.controller;
 
+import dev.cleaningservice.dto.EmployeeDTO;
 import dev.cleaningservice.dto.ProfileDTO;
 import dev.cleaningservice.dto.RegistrationDTO;
 import dev.cleaningservice.entity.UserEntity;
@@ -129,6 +130,13 @@ public class HomepageController {
 
         //get back to login so user can authenticate
         return "login";
+    }
+
+    @GetMapping("/apply")
+    public String showApply(Model model){
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        model.addAttribute("employeeDTO", employeeDTO);
+        return "apply";
     }
 
     //add initbinder to convert/strip input string
