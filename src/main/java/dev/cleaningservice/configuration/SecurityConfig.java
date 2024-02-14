@@ -36,8 +36,14 @@ public class SecurityConfig {
                                 .loginProcessingUrl("/authenticateUser")
                                 .successHandler(authenticationSuccessHandler)
                                 .permitAll()
-                );
-
+                )
+                .logout(logout ->
+                        logout
+                                .logoutSuccessUrl("/")
+                                .deleteCookies("JSESSIONID")
+                                .permitAll()
+                )
+        ;
         return http.build();
     }
 

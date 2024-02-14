@@ -11,7 +11,11 @@ Welcome to Cleaning Service! We pride ourselves in matching great cleaners to ou
 <br><br>
 
 
-<a th:href="@{/login}" sec:authorize="!isAuthenticated()">Sign in</a> <a th:href="@{/sign-up}" sec:authorize="!isAuthenticated()">Sign Up</a> <a th:href="@{/profile}" sec:authorize="hasRole('ROLE_CUSTOMER')">Profile</a>
+<a th:href="@{/login}" sec:authorize="!isAuthenticated()">Sign in</a> <a th:href="@{/sign-up}" sec:authorize="!isAuthenticated()">Sign Up</a> <a th:href="@{/profile}" sec:authorize="isAuthenticated()">Profile</a>
+<form action="#" th:action="@{/logout}" sec:authorize="isAuthenticated()" method="POST">
+    <input type="submit" value="Logout"/>
+</form>
 
 </body>
 </html>
+
