@@ -3,9 +3,11 @@ package dev.cleaningservice.controller;
 import dev.cleaningservice.dto.EmployeeDTO;
 import dev.cleaningservice.dto.ProfileDTO;
 import dev.cleaningservice.dto.RegistrationDTO;
+import dev.cleaningservice.entity.UserEmployee;
 import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.service.RoleService;
+import dev.cleaningservice.service.UserEmployeeService;
 import dev.cleaningservice.service.UserInfoService;
 import dev.cleaningservice.service.security.UserSecService;
 import dev.cleaningservice.validation.EmailAlreadyExistsException;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 public class HomepageController {
 
@@ -33,16 +37,22 @@ public class HomepageController {
 
     private UserSecService userService;
 
+    private UserEmployeeService userEmployeeService;
+
     @Autowired
-    public HomepageController(RoleService roleService, UserInfoService userInfoService, UserSecService userService) {
+    public HomepageController(RoleService roleService, UserInfoService userInfoService,
+                              UserSecService userService, UserEmployeeService userEmployeeService) {
 
         this.roleService = roleService;
         this.userInfoService = userInfoService;
         this.userService = userService;
+        this.userEmployeeService = userEmployeeService;
     }
 
     @GetMapping("/")
     public String showHomePage(Model model) {
+
+        model = populateHomepage(model);
 
         return "home";
     }
@@ -87,6 +97,8 @@ public class HomepageController {
         UserEntity loggedUser = (UserEntity) session.getAttribute("user");
         loggedUser.setUsername(profileDTO.getUsername());
         session.setAttribute("user", loggedUser);
+
+        model = populateHomepage(model);
 
         return "home";
     }
@@ -162,6 +174,8 @@ public class HomepageController {
         }
         userService.save(employeeDTO);
 
+        model = populateHomepage(model);
+
         return "home";
     }
 
@@ -175,6 +189,17 @@ public class HomepageController {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 
+    }
+
+    private Model populateHomepage(Model model){
+        List<UserEmployee> employees = userEmployeeService.listEmployees();
+
+        for(UserEmployee employee : employees){
+            System.out.println(employee + "\n");
+        }
+        model.addAttribute("employees", employees);
+
+        return model;
     }
 
 

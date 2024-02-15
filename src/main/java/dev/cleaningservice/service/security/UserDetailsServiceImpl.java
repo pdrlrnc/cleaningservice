@@ -107,6 +107,7 @@ public class UserDetailsServiceImpl implements UserSecService {
         userEmployee.setDateOfBirth(employeeDTO.getDateOfBirth());
         userEmployee.setPhoneNumber(employeeDTO.getPhoneNumber());
         userEmployee.setAddress(employeeDTO.getAddress());
+        userEmployee.addRole(roleDAO.findByName("ROLE_EMPLOYEE"));
 
         userEmployeeDAO.save(userEmployee);
 

@@ -1,12 +1,10 @@
-package dev.cleaningservice.dao;
+package dev.cleaningservice.service;
 
 import dev.cleaningservice.entity.UserEmployee;
 
 import java.util.List;
 
-public interface UserEmployeeDAO {
-
-    public void save(UserEmployee userEmployee);
+public interface UserEmployeeService {
 
     public List<UserEmployee> listEmployees();
 }

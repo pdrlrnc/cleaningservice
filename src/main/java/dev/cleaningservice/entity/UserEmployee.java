@@ -120,6 +120,13 @@ public class UserEmployee{
          this.userInfo.setAddress(address);
     }
 
+    public String getFirstName(){
+        return this.userInfo.getFirstName();
+    }
+    public void setFirstName(String firstName){
+        this.userInfo.setFirstName(firstName);
+    }
+
 
     @Override
     public String toString() {
