@@ -143,6 +143,7 @@ public class HomepageController {
                 employeeDTO.setAddress(userInfo.getAddress());
                 employeeDTO.setPhoneNumber(userInfo.getPhoneNumber());
                 employeeDTO.setDateOfBirth(userInfo.getDateOfBirth());
+                employeeDTO.setUsername(userEntity.getUsername());
             }
         } else {
             return "login";
@@ -150,6 +151,18 @@ public class HomepageController {
         System.out.println("\n\n\n\n\n" + employeeDTO + "\n\n\n\n\n\n\n");
         model.addAttribute("employeeDTO", employeeDTO);
         return "apply";
+    }
+
+    @PostMapping("/apply/save")
+    public String saveApply(@Valid @ModelAttribute(name = "employeeDTO") EmployeeDTO employeeDTO,
+                            BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            model.addAttribute("employeeDTO", employeeDTO);
+            return "apply";
+        }
+        userService.save(employeeDTO);
+
+        return "home";
     }
 
     //add initbinder to convert/strip input string

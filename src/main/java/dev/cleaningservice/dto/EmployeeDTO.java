@@ -2,6 +2,8 @@ package dev.cleaningservice.dto;
 
 import dev.cleaningservice.validation.MinAge;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 
@@ -9,14 +11,17 @@ public class EmployeeDTO {
 
     private Long userEmployeeId;
 
-    @NotEmpty(message = "please insert a valid number")
+    private String username;
+
+    @NotNull(message = "please insert a valid number")
     private int yearsOfExperience;
 
     @NotEmpty(message = "please insert your full name")
     private String fullName;
 
-    @NotEmpty(message = "please insert your date of birth")
-    @MinAge(message = "to aply you should be at least 18 years old")
+    @NotNull(message = "please insert your date of birth")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @MinAge
     private Date dateOfBirth;
 
     @NotEmpty(message = "please insert your phone number")
@@ -25,7 +30,7 @@ public class EmployeeDTO {
     @NotEmpty(message = "please insert your address")
     private String address;
 
-    @NotEmpty(message = "please insert your social security number")
+    @NotNull(message = "please insert your social security number")
     private int socialSecurityNumber;
 
     public EmployeeDTO() {
@@ -87,6 +92,14 @@ public class EmployeeDTO {
         this.socialSecurityNumber = socialSecurityNumber;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
         return "EmployeeDTO{" +
@@ -95,6 +108,7 @@ public class EmployeeDTO {
                 ", dateOfBirth=" + dateOfBirth +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 }

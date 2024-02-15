@@ -1,10 +1,13 @@
 package dev.cleaningservice.service.security;
 
 import dev.cleaningservice.dao.RoleDAO;
+import dev.cleaningservice.dao.UserEmployeeDAO;
 import dev.cleaningservice.dao.UserEntityDAO;
 import dev.cleaningservice.dao.UserInfoDAO;
+import dev.cleaningservice.dto.EmployeeDTO;
 import dev.cleaningservice.dto.RegistrationDTO;
 import dev.cleaningservice.entity.Role;
+import dev.cleaningservice.entity.UserEmployee;
 import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,14 +31,17 @@ public class UserDetailsServiceImpl implements UserSecService {
 
     private UserInfoDAO userInfoDAO;
 
+    private UserEmployeeDAO userEmployeeDAO;
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserDetailsServiceImpl(UserEntityDAO userEntityDAO, RoleDAO roleDAO,
-                                  UserInfoDAO userInfoDAO, BCryptPasswordEncoder bCryptPasswordEncoder){
+    public UserDetailsServiceImpl(UserEntityDAO userEntityDAO, RoleDAO roleDAO, UserInfoDAO userInfoDAO,
+                                  UserEmployeeDAO userEmployeeDAO, BCryptPasswordEncoder bCryptPasswordEncoder){
         this.userEntityDAO = userEntityDAO;
         this.roleDAO = roleDAO;
         this.userInfoDAO = userInfoDAO;
+        this.userEmployeeDAO = userEmployeeDAO;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 
     }
@@ -81,5 +89,31 @@ public class UserDetailsServiceImpl implements UserSecService {
         //saving userInfo
         userInfoDAO.save(userInfo);
 
+    }
+
+    @Override
+    @Transactional
+    public void save(EmployeeDTO employeeDTO) {
+        //getting userInfo
+        UserInfo userInfo = userInfoDAO.findUserInfoByUsername(employeeDTO.getUsername());
+
+        //translating EmployeeDTO to UserEmployee
+        UserEmployee userEmployee = new UserEmployee();
+        userEmployee.setStartedWorking(getTodaysDate());
+        userEmployee.setYearsOfExperience(employeeDTO.getYearsOfExperience());
+        userEmployee.setSocialSecurityNumber(employeeDTO.getSocialSecurityNumber());
+        userEmployee.setUserInfo(userInfo);
+        userEmployee.setFullName(employeeDTO.getFullName());
+        userEmployee.setDateOfBirth(employeeDTO.getDateOfBirth());
+        userEmployee.setPhoneNumber(employeeDTO.getPhoneNumber());
+        userEmployee.setAddress(employeeDTO.getAddress());
+
+        userEmployeeDAO.save(userEmployee);
+
+    }
+
+    private Date getTodaysDate(){
+        java.util.Date utilDate = new java.util.Date();
+        return new java.sql.Date(utilDate.getTime());
     }
 }
