@@ -126,6 +126,10 @@ public class UserInfo {
         return this.userEntity.getUsername();
     }
 
+    public void addRole(Role role){
+        this.userEntity.addRole(role);
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +

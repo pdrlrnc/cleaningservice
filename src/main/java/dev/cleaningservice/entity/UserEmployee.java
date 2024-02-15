@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.sql.Date;
 
 @Entity(name = "employee")
-public class UserEmployee extends UserEntity{
+public class UserEmployee{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,24 +20,20 @@ public class UserEmployee extends UserEntity{
     @Column(name = "social_security_number")
     private int socialSecurityNumber;
 
+    @OneToOne(cascade = { CascadeType.PERSIST , CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "user_info_id", referencedColumnName = "id")
+    private UserInfo userInfo;
+
     public UserEmployee() {
+
     }
 
-    public UserEmployee(Long id, Date startedWorking, int yearsOfExperience, int socialSecurityNumber) {
+    public UserEmployee(Long id, Date startedWorking, int yearsOfExperience, int socialSecurityNumber, UserInfo userInfo) {
         this.id = id;
         this.startedWorking = startedWorking;
         this.yearsOfExperience = yearsOfExperience;
         this.socialSecurityNumber = socialSecurityNumber;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Long id) {
-        this.id = id;
+        this.userInfo = userInfo;
     }
 
     public Date getStartedWorking() {
@@ -64,6 +60,67 @@ public class UserEmployee extends UserEntity{
         this.socialSecurityNumber = socialSecurityNumber;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public void addRole(Role role){
+        this.userInfo.addRole(role);
+    }
+
+    public String getUsername(){
+        return this.userInfo.getUsername();
+    }
+
+    public void setUsername(String username){
+        this.userInfo.setUsername(username);
+    }
+
+    public void setFullName(String fullName){
+        this.userInfo.setFullName(fullName);
+    }
+
+    public String getFullName(){
+        return this.userInfo.getFullName();
+    }
+
+    public Date getDateOfBirth() {
+        return this.userInfo.getDateOfBirth();
+    }
+
+    public void setDateOfBirth(Date dateOfBirth){
+        this.userInfo.setDateOfBirth(dateOfBirth);
+    }
+
+    public String getPhoneNumber(){
+        return this.userInfo.getPhoneNumber();
+    }
+
+    public void setPhoneNumber(String phoneNumber){
+        this.userInfo.setPhoneNumber(phoneNumber);
+    }
+
+    public String getAddress(){
+        return this.userInfo.getAddress();
+    }
+
+    public void setAddress(String address){
+         this.userInfo.setAddress(address);
+    }
+
+
     @Override
     public String toString() {
         return "UserEmployee{" +
@@ -71,6 +128,7 @@ public class UserEmployee extends UserEntity{
                 ", startedWorking=" + startedWorking +
                 ", yearsOfExperience=" + yearsOfExperience +
                 ", socialSecurityNumber=" + socialSecurityNumber +
+                ", userInfo=" + userInfo +
                 '}';
     }
 }

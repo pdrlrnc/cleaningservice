@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Apply for Cleaning Service</title>
 </head>
 <body>
+We're happy that you want to work with us!
+<br>
+Please fill the following form to send your candidature!
+<br><br>
+<form th:action="@{/apply/save}"
+      th:object="${employeeDTO}" method="POST">
+
+    <!-- Hidden form field to handle update-->
+    <input type="hidden" th:field="*{userEmployeeId}">
+
+    Please tell us how many years of experience you have in cleaning: <input type="number" min="0" max="60" th:field="*{yearsOfExperience}">
+    <br>
+    Full name: <input type="text" th:field="*{fullName}">
+    <br>
+    Date of birth: <input type="date" th:field="*{dateOfBirth}" pattern="\d{4}-\d{2}-\d{2}">
+    <br>
+    Phone number:     <input type="text" th:field="*{phoneNumber}">
+    <br>
+    Address: <input type="text" th:field="*{address}" placeholder="address">
+    <br>
+    Social security number: <input type="number" min="100000000" max="999999999" th:field="*{socialSecurityNumber}">
+    <br><br>
+    <button type="submit">Submit</button>
+
+</form>
 
 </body>
 </html>

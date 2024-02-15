@@ -57,7 +57,7 @@ public class HomepageController {
         UserInfo userInfo = userInfoService.findUserInfoByUsername(userEntity.getUsername());
 
         ProfileDTO profileDTO = new ProfileDTO(userInfo.getId(), userInfo.getUsername(), userInfo.getEmail(),
-        userInfo.getFirstName(), userInfo.getFullName(), userInfo.getDateOfBirth(), userInfo.getPhoneNumber(), userInfo.getAddress());
+                userInfo.getFirstName(), userInfo.getFullName(), userInfo.getDateOfBirth(), userInfo.getPhoneNumber(), userInfo.getAddress());
 
         model.addAttribute("profileDTO", profileDTO);
 
@@ -133,8 +133,21 @@ public class HomepageController {
     }
 
     @GetMapping("/apply")
-    public String showApply(Model model){
+    public String showApply(Model model, HttpServletRequest request){
         EmployeeDTO employeeDTO = new EmployeeDTO();
+        UserEntity userEntity = (UserEntity) request.getSession().getAttribute("user");
+        if(userEntity != null) {
+            UserInfo userInfo = userInfoService.findUserInfoByUsername(userEntity.getUsername());
+            if(userInfo != null){
+                employeeDTO.setFullName(userInfo.getFullName());
+                employeeDTO.setAddress(userInfo.getAddress());
+                employeeDTO.setPhoneNumber(userInfo.getPhoneNumber());
+                employeeDTO.setDateOfBirth(userInfo.getDateOfBirth());
+            }
+        } else {
+            return "login";
+        }
+        System.out.println("\n\n\n\n\n" + employeeDTO + "\n\n\n\n\n\n\n");
         model.addAttribute("employeeDTO", employeeDTO);
         return "apply";
     }
