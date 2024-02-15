@@ -99,7 +99,6 @@ public class UserDetailsServiceImpl implements UserSecService {
 
         //translating EmployeeDTO to UserEmployee
         UserEmployee userEmployee = new UserEmployee();
-        userEmployee.setStartedWorking(getTodaysDate());
         userEmployee.setYearsOfExperience(employeeDTO.getYearsOfExperience());
         userEmployee.setSocialSecurityNumber(employeeDTO.getSocialSecurityNumber());
         userEmployee.setUserInfo(userInfo);
@@ -107,10 +106,9 @@ public class UserDetailsServiceImpl implements UserSecService {
         userEmployee.setDateOfBirth(employeeDTO.getDateOfBirth());
         userEmployee.setPhoneNumber(employeeDTO.getPhoneNumber());
         userEmployee.setAddress(employeeDTO.getAddress());
-        userEmployee.addRole(roleDAO.findByName("ROLE_EMPLOYEE"));
+        userEmployee.setActive(false);
 
         userEmployeeDAO.save(userEmployee);
-
     }
 
     private Date getTodaysDate(){

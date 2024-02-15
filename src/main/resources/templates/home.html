@@ -27,7 +27,7 @@ Discover our cleaners!
     </tr>
     </thead>
     <tbody>
-    <tr th:each="employee : ${employees}">
+    <tr th:each="employee : ${employees}" th:if="${employee.active}">
         <td th:text="${employee.firstName}"></td>
         <td th:text="${employee.yearsOfExperience}"></td>
     </tr>

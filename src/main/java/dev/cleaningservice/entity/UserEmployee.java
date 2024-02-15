@@ -20,6 +20,9 @@ public class UserEmployee{
     @Column(name = "social_security_number")
     private int socialSecurityNumber;
 
+    @Column(name ="active")
+    boolean active;
+
     @OneToOne(cascade = { CascadeType.PERSIST , CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "user_info_id", referencedColumnName = "id")
     private UserInfo userInfo;
@@ -28,11 +31,12 @@ public class UserEmployee{
 
     }
 
-    public UserEmployee(Long id, Date startedWorking, int yearsOfExperience, int socialSecurityNumber, UserInfo userInfo) {
+    public UserEmployee(Long id, Date startedWorking, int yearsOfExperience, int socialSecurityNumber, boolean active, UserInfo userInfo) {
         this.id = id;
         this.startedWorking = startedWorking;
         this.yearsOfExperience = yearsOfExperience;
         this.socialSecurityNumber = socialSecurityNumber;
+        this.active = active;
         this.userInfo = userInfo;
     }
 
@@ -66,6 +70,14 @@ public class UserEmployee{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public UserInfo getUserInfo() {
@@ -127,7 +139,6 @@ public class UserEmployee{
         this.userInfo.setFirstName(firstName);
     }
 
-
     @Override
     public String toString() {
         return "UserEmployee{" +
@@ -135,6 +146,7 @@ public class UserEmployee{
                 ", startedWorking=" + startedWorking +
                 ", yearsOfExperience=" + yearsOfExperience +
                 ", socialSecurityNumber=" + socialSecurityNumber +
+                ", active=" + active +
                 ", userInfo=" + userInfo +
                 '}';
     }
