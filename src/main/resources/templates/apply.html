@@ -20,12 +20,16 @@ Please fill the following form to send your candidature!
     Please tell us how many years of experience you have in cleaning: <input type="number" min="0" max="60" th:field="*{yearsOfExperience}">
     <br>
     Full name: <input type="text" th:field="*{fullName}">
+    <span th:if="${fullName}" th:text="${fullName}"></span>
     <br>
     Date of birth: <input type="date" th:field="*{dateOfBirth}" pattern="\d{4}-\d{2}-\d{2}">
+    <span th:if="${dateOfBirth}" th:text="${dateOfBirth}"></span>
     <br>
-    Phone number:     <input type="text" th:field="*{phoneNumber}">
+    Phone number: <input type="text" th:field="*{phoneNumber}">
+    <span th:if="${phoneNumber}" th:text="${phoneNumber}"></span>
     <br>
     Address: <input type="text" th:field="*{address}" placeholder="address">
+    <span th:if="${address}" th:text="${address}"></span>
     <br>
     Social security number: <input type="number" min="100000000" max="999999999" th:field="*{socialSecurityNumber}">
     <br><br>

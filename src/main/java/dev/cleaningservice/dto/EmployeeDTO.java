@@ -3,6 +3,7 @@ package dev.cleaningservice.dto;
 import dev.cleaningservice.validation.MinAge;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
@@ -25,6 +26,7 @@ public class EmployeeDTO {
     private Date dateOfBirth;
 
     @NotEmpty(message = "please insert your phone number")
+    @Pattern(regexp = "^(9[1236]\\d) ?(\\d{3}) ?(\\d{3})$", message = "Phone number must be valid")
     private String phoneNumber;
 
     @NotEmpty(message = "please insert your address")
