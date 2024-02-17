@@ -28,6 +28,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(configurer ->
                         configurer
                                 .requestMatchers("/", "/sign-up", "/sign-up/save").permitAll()
+                                .requestMatchers("/admin", "/admin/new-applicants").hasAnyAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form ->

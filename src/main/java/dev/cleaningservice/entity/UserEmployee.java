@@ -3,6 +3,8 @@ package dev.cleaningservice.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 @Entity(name = "employee")
 public class UserEmployee{
@@ -49,7 +51,15 @@ public class UserEmployee{
     }
 
     public int getYearsOfExperience() {
-        return yearsOfExperience;
+        if(startedWorking != null) {
+            LocalDate startedWorkingLocalDate = startedWorking.toLocalDate();
+            LocalDate today = LocalDate.now();
+            Period period = Period.between(startedWorkingLocalDate, today);
+
+            return yearsOfExperience + period.getYears();
+        } else {
+            return yearsOfExperience;
+        }
     }
 
     public void setYearsOfExperience(int yearsOfExperience) {

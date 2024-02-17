@@ -9,4 +9,6 @@ public interface UserEmployeeDAO {
     public void save(UserEmployee userEmployee);
 
     public List<UserEmployee> listEmployees();
+
+    UserEmployee getById(int employee);
 }

@@ -10,6 +10,7 @@ import dev.cleaningservice.service.RoleService;
 import dev.cleaningservice.service.UserEmployeeService;
 import dev.cleaningservice.service.UserInfoService;
 import dev.cleaningservice.service.security.UserSecService;
+import dev.cleaningservice.utils.Utils;
 import dev.cleaningservice.validation.EmailAlreadyExistsException;
 import dev.cleaningservice.validation.UsernameAlreadyExistsException;
 import jakarta.persistence.NoResultException;
@@ -52,7 +53,7 @@ public class HomepageController {
     @GetMapping("/")
     public String showHomePage(Model model) {
 
-        model = populateHomepage(model);
+        model = Utils.listEmployees(model, userEmployeeService);
 
         return "home";
     }
@@ -98,7 +99,7 @@ public class HomepageController {
         loggedUser.setUsername(profileDTO.getUsername());
         session.setAttribute("user", loggedUser);
 
-        model = populateHomepage(model);
+        model = Utils.listEmployees(model, userEmployeeService);
 
         return "home";
     }
@@ -174,7 +175,7 @@ public class HomepageController {
         }
         userService.save(employeeDTO);
 
-        model = populateHomepage(model);
+        model = Utils.listEmployees(model, userEmployeeService);
 
         return "home";
     }
@@ -191,16 +192,7 @@ public class HomepageController {
 
     }
 
-    private Model populateHomepage(Model model){
-        List<UserEmployee> employees = userEmployeeService.listEmployees();
 
-        for(UserEmployee employee : employees){
-            System.out.println(employee + "\n");
-        }
-        model.addAttribute("employees", employees);
-
-        return model;
-    }
 
 
 }

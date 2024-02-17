@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>New applicants</title>
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Years of Experience</th>
+        <th>Confirm applicant</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${employees}" th:if="${!employee.active}">
+        <td th:text="${employee.firstName}"></td>
+        <td th:text="${employee.yearsOfExperience}"></td>
+        <td>
+            <a th:href="@{/confirmApplicant(id=${employee.id})}">Confirm</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

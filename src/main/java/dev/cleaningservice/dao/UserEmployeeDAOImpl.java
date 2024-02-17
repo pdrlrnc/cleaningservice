@@ -23,7 +23,6 @@ public class UserEmployeeDAOImpl implements UserEmployeeDAO{
     @Transactional
     public void save(UserEmployee userEmployee) {
         entityManager.persist(userEmployee);
-
     }
 
     @Override
@@ -31,5 +30,10 @@ public class UserEmployeeDAOImpl implements UserEmployeeDAO{
 
         TypedQuery<UserEmployee> query = entityManager.createQuery("FROM employee", UserEmployee.class);
         return query.getResultList();
+    }
+
+    @Override
+    public UserEmployee getById(int employee) {
+        return entityManager.find(UserEmployee.class, employee);
     }
 }
