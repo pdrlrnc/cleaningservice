@@ -12,6 +12,7 @@
         <th>Name</th>
         <th>Years of Experience</th>
         <th>Confirm applicant</th>
+        <th>Delete applicant</th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +21,9 @@
         <td th:text="${employee.yearsOfExperience}"></td>
         <td>
             <a th:href="@{/confirmApplicant(id=${employee.id})}">Confirm</a>
+        </td>
+        <td>
+            <a th:href="@{/deleteApplicant(id=${employee.id})}">Delete</a>
         </td>
     </tr>
     </tbody>

@@ -11,4 +11,6 @@ public interface UserEmployeeDAO {
     public List<UserEmployee> listEmployees();
 
     UserEmployee getById(int employee);
+
+    void deleteById(int id);
 }

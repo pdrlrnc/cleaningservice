@@ -13,4 +13,6 @@ public interface UserEmployeeService {
     UserEmployee getById(int employee);
 
     void confirmApplicant(int id);
+
+    void deleteApplicant(int id);
 }

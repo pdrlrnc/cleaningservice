@@ -45,5 +45,11 @@ public class UserEmployeeServiceImpl implements UserEmployeeService {
         save(userEmployee);
     }
 
+    @Override
+    @Transactional
+    public void deleteApplicant(int id) {
+        userEmployeeDAO.deleteById(id);
+    }
+
 
 }

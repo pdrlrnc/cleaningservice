@@ -45,4 +45,12 @@ public class AdminController {
 
         return "redirect:/admin/new-applicants";
     }
+
+    @GetMapping("/deleteApplicant")
+    public String deleteApplicant(@RequestParam int id){
+
+        userEmployeeService.deleteApplicant(id);
+
+        return "redirect:/admin/new-applicants";
+    }
 }

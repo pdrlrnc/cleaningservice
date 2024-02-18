@@ -36,4 +36,14 @@ public class UserEmployeeDAOImpl implements UserEmployeeDAO{
     public UserEmployee getById(int employee) {
         return entityManager.find(UserEmployee.class, employee);
     }
+
+    @Override
+    @Transactional
+    public void deleteById(int id) {
+
+        UserEmployee employeeToDelete = getById(id);
+
+        if(employeeToDelete != null)
+            entityManager.remove(employeeToDelete);
+    }
 }
