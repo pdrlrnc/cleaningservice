@@ -11,9 +11,12 @@ public interface UserEmployeeDAO {
 
     public List<UserEmployee> listEmployees();
 
-    UserEmployee getById(int employee);
+    public List<UserEmployee> listActiveEmployees();
 
-    void deleteById(int id);
+    public UserEmployee getById(int employee);
 
-    UserEmployee getByUserInfoID(Long userId);
+    public void deleteById(int id);
+
+    public UserEmployee getByUserInfoID(Long userId);
+
 }

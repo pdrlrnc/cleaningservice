@@ -9,6 +9,8 @@ public interface UserEmployeeService {
 
     public List<UserEmployee> listEmployees();
 
+    public List<UserEmployee> listActiveEmployees();
+
     public void save(UserEmployee employee);
 
     UserEmployee getById(int employee);

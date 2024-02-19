@@ -13,7 +13,7 @@ Welcome to Cleaning Service! We pride ourselves in matching great cleaners to ou
 
 <a th:href="@{/login}" sec:authorize="!isAuthenticated()">Sign in</a> <a th:href="@{/sign-up}"
                                                                          sec:authorize="!isAuthenticated()">Sign Up</a>
-<a th:href="@{/profile/edit}" sec:authorize="isAuthenticated()">Profile</a>
+<a th:href="@{/profile/edit}" sec:authorize="isAuthenticated()">Profile</a> <a th:href="@{/profile/appointments}" sec:authorize="isAuthenticated()">Appointments</a>
 
 <form action="#" th:action="@{/logout}" sec:authorize="isAuthenticated()" method="POST">
     <input type="submit" value="Logout"/>
@@ -40,6 +40,21 @@ Discover our cleaners!
     </tbody>
 </table>
 
+<br><br><br>
+Create your appointment with one of our great cleaners!
+<br>
+
+<br>
+<form th:action="@{/appointment}" th:object="${appointment}" method="post">
+
+    Select a date and time for your appointment:
+    <input type="datetime-local" th:field="*{startDate}" id="appointment-datetime"/>
+    <br>
+    Select how many hours you want our services for:
+    <input type="number" th:field="*{hours}">
+    <br>
+    <button type="submit" class="button">Submit</button>
+</form>
 
 <a th:href="@{/apply}" sec:authorize="!hasRole('ROLE_EMPLOYEE')" style="position: fixed; bottom:   0; right:   0;">Want
     to work for us?</a>

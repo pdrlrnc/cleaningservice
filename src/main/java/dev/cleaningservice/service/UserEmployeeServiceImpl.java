@@ -26,6 +26,12 @@ public class UserEmployeeServiceImpl implements UserEmployeeService {
     }
 
     @Override
+    public List<UserEmployee> listActiveEmployees() {
+        return userEmployeeDAO.listActiveEmployees();
+    }
+
+
+    @Override
     @Transactional
     public void save(UserEmployee employee) {
         userEmployeeDAO.save(employee);

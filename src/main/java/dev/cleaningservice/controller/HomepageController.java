@@ -2,6 +2,7 @@ package dev.cleaningservice.controller;
 
 import dev.cleaningservice.dto.EmployeeDTO;
 import dev.cleaningservice.dto.RegistrationDTO;
+import dev.cleaningservice.entity.Appointment;
 import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.service.RoleService;
@@ -43,6 +44,9 @@ public class HomepageController {
 
     @GetMapping("/")
     public String showHomePage(Model model) {
+
+        Appointment appointment = new Appointment();
+        model.addAttribute("appointment", appointment);
 
         model = Utils.listEmployees(model, userEmployeeService);
 
