@@ -4,8 +4,10 @@ import dev.cleaningservice.entity.Appointment;
 import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.service.AppointmentService;
+import dev.cleaningservice.service.UserEmployeeService;
 import dev.cleaningservice.service.UserInfoService;
 import dev.cleaningservice.utils.Utils;
+import dev.cleaningservice.validation.NoneAvailableCleaners;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,13 @@ public class AppointmentController {
 
     private UserInfoService userInfoService;
 
+    private UserEmployeeService userEmployeeService;
+
     @Autowired
-    public AppointmentController(AppointmentService appointmentService, UserInfoService userInfoService) {
+    public AppointmentController(AppointmentService appointmentService, UserInfoService userInfoService, UserEmployeeService userEmployeeService) {
         this.appointmentService = appointmentService;
         this.userInfoService = userInfoService;
+        this.userEmployeeService = userEmployeeService;
     }
 
     @PostMapping("/appointment")
@@ -39,7 +44,16 @@ public class AppointmentController {
         UserInfo userInfo = userInfoService.findUserInfoByUsername(userEntity.getUsername());
         appointment.setClient(userInfo);
 
-        appointmentService.createAppointment(appointment);
+        try {
+            appointmentService.createAppointment(appointment);
+        } catch (NoneAvailableCleaners nac){
+            model.addAttribute("noneAvailableCleaners", nac.getMessage());
+        }
+        model = Utils.listEmployees(model, userEmployeeService);
+
+        if(!model.containsAttribute("noneAvailableCleaners"))
+            model.addAttribute("appointmentSuccess",
+                    "Success creating your appointment, you can check it in your Appointments tab");
 
         return "home";
     }

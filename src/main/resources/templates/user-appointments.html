@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Your appointments</title>
 </head>
 <body>
 
@@ -12,21 +12,19 @@
         <tr>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Employee</th>
+            <th>Cleaner</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="appointment : ${appointmentList}">
-            <td th:text="${appointment.startDate}"></td>
-            <td th:text="${appointment.endDate}"></td>
-            <td th:text="${appointment.employee.name}"></td>
-            <!-- Add other fields as needed -->
+            <td th:text="${#temporals.format(appointment.startDate, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${#temporals.format(appointment.endDate, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${appointment.employee.fullName}"></td>
         </tr>
         </tbody>
     </table>
 </div>
 
-<!-- Display a message if the appointment list is empty -->
 <div th:if="${#lists.isEmpty(appointmentList)}">
     <p>No appointments found.</p>
 </div>

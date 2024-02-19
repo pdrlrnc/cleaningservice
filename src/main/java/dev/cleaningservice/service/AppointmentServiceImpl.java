@@ -5,6 +5,7 @@ import dev.cleaningservice.entity.Appointment;
 import dev.cleaningservice.entity.UserEmployee;
 import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
+import dev.cleaningservice.validation.NoneAvailableCleaners;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,18 +29,21 @@ public class AppointmentServiceImpl implements AppointmentService{
 
     @Override
     @Transactional
-    public void createAppointment(Appointment appointment) {
+    public void createAppointment(Appointment appointment) throws NoneAvailableCleaners {
 
-        List<UserEmployee> listEmployees = userEmployeeService.listEmployees();
+        List<UserEmployee> listEmployees = userEmployeeService.listActiveEmployees();
 
         do {
             Random random = new Random();
             int randomIndex = random.nextInt(listEmployees.size());
-            listEmployees.remove(randomIndex);
             UserEmployee userEmployee = listEmployees.get(randomIndex);
+            listEmployees.remove(randomIndex);
             appointment.setEmployee(userEmployee);
-        } while (hasAppointment(appointment));
+        } while (hasAppointment(appointment) && !listEmployees.isEmpty());
 
+        if(listEmployees.isEmpty()){
+            throw new NoneAvailableCleaners("There are no cleaners available for that date and time");
+        }
         appointmentDAO.save(appointment);
     }
 

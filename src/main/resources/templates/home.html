@@ -55,6 +55,8 @@ Create your appointment with one of our great cleaners!
     <br>
     <button type="submit" class="button">Submit</button>
 </form>
+<span th:text="*{noneAvailableCleaners}"></span>
+<span th:text="*{appointmentSuccess}"></span>
 
 <a th:href="@{/apply}" sec:authorize="!hasRole('ROLE_EMPLOYEE')" style="position: fixed; bottom:   0; right:   0;">Want
     to work for us?</a>

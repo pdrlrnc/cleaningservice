@@ -37,7 +37,7 @@ public class UserEmployeeDAOImpl implements UserEmployeeDAO {
 
     @Override
     public List<UserEmployee> listActiveEmployees() {
-        TypedQuery<UserEmployee> query = entityManager.createQuery("SELECT ue FROM UserEmployee ue WHERE ue.active = true", UserEmployee.class);
+        TypedQuery<UserEmployee> query = entityManager.createQuery("SELECT ue FROM employee ue WHERE ue.active = true", UserEmployee.class);
         return query.getResultList();
     }
 
