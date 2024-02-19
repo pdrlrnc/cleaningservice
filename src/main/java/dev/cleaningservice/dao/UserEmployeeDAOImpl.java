@@ -1,7 +1,9 @@
 package dev.cleaningservice.dao;
 
 import dev.cleaningservice.entity.UserEmployee;
+import dev.cleaningservice.entity.UserInfo;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -11,14 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class UserEmployeeDAOImpl implements UserEmployeeDAO{
+public class UserEmployeeDAOImpl implements UserEmployeeDAO {
 
     @Autowired
     private EntityManager entityManager;
 
-    public UserEmployeeDAOImpl(EntityManager entityManager){
+    public UserEmployeeDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
     @Override
     @Transactional
     public void save(UserEmployee userEmployee) {
@@ -43,7 +46,20 @@ public class UserEmployeeDAOImpl implements UserEmployeeDAO{
 
         UserEmployee employeeToDelete = getById(id);
 
-        if(employeeToDelete != null)
+        if (employeeToDelete != null)
             entityManager.remove(employeeToDelete);
+    }
+
+    @Override
+    public UserEmployee getByUserInfoID(Long userId) {
+
+        TypedQuery<UserEmployee> query = entityManager.createQuery(
+                "SELECT ue FROM employee ue WHERE ue.userInfo.id = :userInfoId", UserEmployee.class);
+        query.setParameter("userInfoId", userId);
+        try {
+            return query.getSingleResult();
+        } catch(NoResultException nre){
+            return null;
+        }
     }
 }

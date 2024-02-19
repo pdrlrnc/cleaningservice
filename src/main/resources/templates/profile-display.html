@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Name</th>
+        <td th:text="${profileDTO.fullName}"></td>
+    </tr>
+    <tr>
+        <th>Address</th>
+        <td th:text="${profileDTO.address}"></td>
+    </tr>
+    <tr>
+        <th>Started working</th>
+        <td th:text="${profileDTO.startedWorking}"></td>
+    </tr>
+    <tr>
+        <th>Years of experience</th>
+        <td th:text="${profileDTO.yearsOfExperience}"></td>
+    </tr>
+</table>
+<br><br>
+<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/new-applicants}">Go back</a>
+<a sec:authorize="!hasRole('ROLE_ADMIN')" th:href="@{/}">Go back</a>
+</body>
+</html>

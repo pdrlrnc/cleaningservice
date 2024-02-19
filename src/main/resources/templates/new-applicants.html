@@ -17,7 +17,11 @@
     </thead>
     <tbody>
     <tr th:each="employee : ${employees}" th:if="${!employee.active}">
-        <td th:text="${employee.firstName}"></td>
+        <td>
+            <a th:href="@{/profile/{userId}(userId=${employee.userInfo.id})}">
+                <span th:text="${employee.firstName}"/>
+            </a>
+        </td>
         <td th:text="${employee.yearsOfExperience}"></td>
         <td>
             <a th:href="@{/confirmApplicant(id=${employee.id})}">Confirm</a>

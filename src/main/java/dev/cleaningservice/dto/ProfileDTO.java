@@ -9,6 +9,8 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class ProfileDTO {
 
@@ -35,6 +37,10 @@ public class ProfileDTO {
     private String phoneNumber;
 
     private String address;
+
+    private Date startedWorking;
+
+    private int yearsOfExperience;
 
     public ProfileDTO() {
     }
@@ -114,6 +120,22 @@ public class ProfileDTO {
         this.address = address;
     }
 
+    public Date getStartedWorking() {
+        return startedWorking;
+    }
+
+    public void setStartedWorking(Date startedWorking) {
+        this.startedWorking = startedWorking;
+    }
+
+    public int getYearsOfExperience() {
+        return yearsOfExperience;
+    }
+
+    public void setYearsOfExperience(int yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
+    }
+
     @Override
     public String toString() {
         return "ProfileDTO{" +
@@ -125,6 +147,8 @@ public class ProfileDTO {
                 ", dateOfBirth=" + dateOfBirth +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
+                ", startedWorking=" + startedWorking +
+                ", yearsOfExperience=" + yearsOfExperience +
                 '}';
     }
 }

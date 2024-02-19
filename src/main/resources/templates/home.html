@@ -11,7 +11,9 @@ Welcome to Cleaning Service! We pride ourselves in matching great cleaners to ou
 <br><br>
 
 
-<a th:href="@{/login}" sec:authorize="!isAuthenticated()">Sign in</a> <a th:href="@{/sign-up}" sec:authorize="!isAuthenticated()">Sign Up</a> <a th:href="@{/profile}" sec:authorize="isAuthenticated()">Profile</a>
+<a th:href="@{/login}" sec:authorize="!isAuthenticated()">Sign in</a> <a th:href="@{/sign-up}"
+                                                                         sec:authorize="!isAuthenticated()">Sign Up</a>
+<a th:href="@{/profile/edit}" sec:authorize="isAuthenticated()">Profile</a>
 
 <form action="#" th:action="@{/logout}" sec:authorize="isAuthenticated()" method="POST">
     <input type="submit" value="Logout"/>
@@ -28,14 +30,19 @@ Discover our cleaners!
     </thead>
     <tbody>
     <tr th:each="employee : ${employees}" th:if="${employee.active}">
-        <td th:text="${employee.firstName}"></td>
+        <td>
+            <a th:href="@{/profile/{userId}(userId=${employee.userInfo.id})}">
+                <span th:text="${employee.firstName}"></span>
+            </a>
+        </td>
         <td th:text="${employee.yearsOfExperience}"></td>
     </tr>
     </tbody>
 </table>
 
 
-<a th:href="@{/apply}" sec:authorize="!hasRole('ROLE_EMPLOYEE')" style="position: fixed; bottom:   0; right:   0;">Want to work for us?</a>
+<a th:href="@{/apply}" sec:authorize="!hasRole('ROLE_EMPLOYEE')" style="position: fixed; bottom:   0; right:   0;">Want
+    to work for us?</a>
 
 </body>
 </html>

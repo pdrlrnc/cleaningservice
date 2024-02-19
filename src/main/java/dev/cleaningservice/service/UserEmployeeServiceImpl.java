@@ -1,6 +1,7 @@
 package dev.cleaningservice.service;
 
 import dev.cleaningservice.dao.UserEmployeeDAO;
+import dev.cleaningservice.dto.ProfileDTO;
 import dev.cleaningservice.entity.UserEmployee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,5 @@ public class UserEmployeeServiceImpl implements UserEmployeeService {
     public void deleteApplicant(int id) {
         userEmployeeDAO.deleteById(id);
     }
-
 
 }

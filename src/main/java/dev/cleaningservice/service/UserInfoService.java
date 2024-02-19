@@ -14,4 +14,6 @@ public interface UserInfoService {
     public UserInfo findUserInfoByUsername(String username);
 
     public UserInfo findUserInfoByEmail(String email);
+
+    ProfileDTO populateProfileDTO(Long userId);
 }
