@@ -3,47 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>Cleaning Service</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
 </head>
 <body>
 
-Welcome to Cleaning Service! We pride ourselves in matching great cleaners to our costumers!
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a th:href="@{/}"
+           class="navbar-brand mb-0 h1">
+            <img
+                    class="d-inline-block align-top"
+                    th:src="@{/images/cleaning.png}"
+                    width="30" height="30"
+            />
+            Cleaning Service
+        </a>
+        <button
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                class="navbar-toggler"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+                class="collapse navbar-collapse"
+                id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a th:href="@{/profile/edit}" sec:authorize="isAuthenticated()" class="nav-link active">Profile</a>
+                </li>
+                <li class="nav-item active">
+                    <a th:href="@{/login}" sec:authorize="!isAuthenticated()" class="nav-link active">Sign in</a>
+                </li>
+                <li class="nav-item active">
+                    <a th:href="@{/sign-up}" sec:authorize="!isAuthenticated()" class="nav-link active">Sign up</a>
+                </li>
+                <li class="nav-item active">
+                    <a th:href="@{/profile/appointments}" sec:authorize="isAuthenticated()" class="nav-link active">Appointments</a>
+                </li>
+                <li class="nav-item active">
+                    <div class="ml-auto">
+                        <form class="form-inline" action="#" th:action="@{/logout}" sec:authorize="isAuthenticated()"
+                              method="POST">
+                            <input class="btn btn-outline-secundary my-2 my-sm-0" type="submit" value="Logout"/>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-<br><br>
-
-
-<a th:href="@{/login}" sec:authorize="!isAuthenticated()">Sign in</a> <a th:href="@{/sign-up}"
-                                                                         sec:authorize="!isAuthenticated()">Sign Up</a>
-<a th:href="@{/profile/edit}" sec:authorize="isAuthenticated()">Profile</a> <a th:href="@{/profile/appointments}" sec:authorize="isAuthenticated()">Appointments</a>
-
-<form action="#" th:action="@{/logout}" sec:authorize="isAuthenticated()" method="POST">
-    <input type="submit" value="Logout"/>
-</form>
-<br><br>
-Discover our cleaners!
-<br>
-<table>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Years of Experience</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="employee : ${employees}" th:if="${employee.active}">
-        <td>
-            <a th:href="@{/profile/{userId}(userId=${employee.userInfo.id})}">
-                <span th:text="${employee.firstName}"></span>
-            </a>
-        </td>
-        <td th:text="${employee.yearsOfExperience}"></td>
-    </tr>
-    </tbody>
-</table>
+    <br><br>
+    Welcome to Cleaning Service! We pride ourselves in matching great cleaners to our costumers!
+    <br><br>
+    <br><br>
+    Discover our cleaners!
+    <br>
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="row">Name</th>
+            <th scope="row">Years of Experience</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${employees}" th:if="${employee.active}">
+            <td>
+                <a th:href="@{/profile/{userId}(userId=${employee.userInfo.id})}">
+                    <span th:text="${employee.firstName}"></span>
+                </a>
+            </td>
+            <td th:text="${employee.yearsOfExperience}"></td>
+        </tr>
+        </tbody>
+    </table>
 
 <br><br><br>
 Create your appointment with one of our great cleaners!
 <br>
-
 <br>
 <form th:action="@{/appointment}" th:object="${appointment}" method="post">
 
@@ -61,6 +104,7 @@ Create your appointment with one of our great cleaners!
 <a th:href="@{/apply}" sec:authorize="!hasRole('ROLE_EMPLOYEE')" style="position: fixed; bottom:   0; right:   0;">Want
     to work for us?</a>
 
+</div>
 </body>
 </html>
 
