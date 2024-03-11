@@ -11,6 +11,4 @@ public interface AppointmentService {
     public void createAppointment(Appointment appointment) throws NoneAvailableCleaners;
 
     public List<Appointment> listAppointmentsByClient(UserInfo client);
-
-    public List<Appointment> listAppointmentsByEmployee(UserInfo employee);
 }

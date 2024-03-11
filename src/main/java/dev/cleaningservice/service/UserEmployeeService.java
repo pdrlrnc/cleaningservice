@@ -18,6 +18,4 @@ public interface UserEmployeeService {
     void confirmApplicant(int id);
 
     void deleteApplicant(int id);
-
-    UserEmployee getByUserInfoId(Long userInfoId);
 }
