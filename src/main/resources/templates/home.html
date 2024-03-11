@@ -84,25 +84,28 @@
         </tbody>
     </table>
 
-<br><br><br>
-Create your appointment with one of our great cleaners!
-<br>
-<br>
-<form th:action="@{/appointment}" th:object="${appointment}" method="post">
-
-    Select a date and time for your appointment:
-    <input type="datetime-local" th:field="*{startDate}" id="appointment-datetime"/>
+    <br><br><br>
+    Create your appointment with one of our great cleaners!
     <br>
-    Select how many hours you want our services for:
-    <input type="number" th:field="*{hours}">
     <br>
-    <button type="submit" class="button">Submit</button>
-</form>
-<span th:text="*{noneAvailableCleaners}"></span>
-<span th:text="*{appointmentSuccess}"></span>
+    <form th:action="@{/appointment}" th:object="${appointment}" method="post">
 
-<a th:href="@{/apply}" sec:authorize="!hasRole('ROLE_EMPLOYEE')" style="position: fixed; bottom:   0; right:   0;">Want
-    to work for us?</a>
+        Select a date and time for your appointment:
+        <input type="datetime-local" th:field="*{startDate}" id="appointment-datetime"/>
+        <br>
+        Select how many hours you want our services for:
+        <input type="number" th:field="*{hours}">
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br>
+    <span th:if="${noneAvailableCleaners ne null}" th:text="*{noneAvailableCleaners}"
+          class="p-3 mb-2 bg-warning text-dark"></span>
+    <span th:if="${appointmentSuccess ne null}" th:text="*{appointmentSuccess}"
+          class="p-3 mb-2 bg-success text-white"></span>
+
+    <a th:href="@{/apply}" sec:authorize="!hasRole('ROLE_EMPLOYEE')" style="position: fixed; bottom:   0; right:   0;">Want
+        to work for us?</a>
 
 </div>
 </body>
