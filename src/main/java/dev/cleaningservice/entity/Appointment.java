@@ -17,8 +17,7 @@ public class Appointment {
     private UserInfo client;
 
     @ManyToOne
-    private UserEmployee employea
-        sdafsae;
+    private UserEmployee employee;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;

@@ -52,6 +52,14 @@ public class AppointmentServiceImpl implements AppointmentService{
         return appointmentDAO.listAppointmentByClient(client);
     }
 
+    @Override
+    public List<Appointment> listAppointmentsByEmployee(UserInfo employee) {
+
+        UserEmployee userEmployee = userEmployeeService.getByUserInfoId(employee.getId());
+
+        return appointmentDAO.listAppointmentByEmployee(userEmployee);
+    }
+
     private boolean hasAppointment(Appointment appointment){
 
         List<Appointment> appointmentList = appointmentDAO.listAppointmentByEmployee(appointment.getEmployee());

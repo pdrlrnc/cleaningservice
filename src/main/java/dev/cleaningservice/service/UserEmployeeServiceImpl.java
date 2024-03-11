@@ -58,4 +58,9 @@ public class UserEmployeeServiceImpl implements UserEmployeeService {
         userEmployeeDAO.deleteById(id);
     }
 
+    @Override
+    public UserEmployee getByUserInfoId(Long userInfoId) {
+        return userEmployeeDAO.getByUserInfoID(userInfoId);
+    }
+
 }
