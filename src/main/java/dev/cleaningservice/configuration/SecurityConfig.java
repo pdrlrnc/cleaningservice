@@ -29,6 +29,7 @@ public class SecurityConfig {
                         configurer
                                 .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                                 .requestMatchers("/", "/sign-up", "/sign-up/save").permitAll()
+                                .requestMatchers("/client-profile-display/**").hasAnyAuthority( "ROLE_EMPLOYEE")
                                 .requestMatchers("/admin", "/admin/new-applicants").hasAnyAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated()
                 )

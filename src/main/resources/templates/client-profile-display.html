@@ -3,10 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <style>
+        .custom-padding-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* This makes the parent container take up the full viewport height */
+        }
+    </style>
 </head>
 <body>
-
-<br><br>
-<a sec:authorize="hasRole('ROLE_EMPLOYEE')" th:href="@{/profile/jobs}">Go back</a>
+<div class="custom-padding-top">
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-info">
+                <tr>
+                    <th>Name</th>
+                    <td th:text="${clientProfileDTO.name}"></td>
+                </tr>
+                <tr th:if="${!#strings.isEmpty(clientProfileDTO.address)}">
+                    <th>Address</th>
+                    <td th:text="${clientProfileDTO.address}"></td>
+                </tr>
+                <tr th:if="${!#strings.isEmpty(clientProfileDTO.phoneNumber)}">
+                    <th>Phone number</th>
+                    <td th:text="${clientProfileDTO.phoneNumber}"></td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/profile/jobs'">Go back</button>
+    </div>
+</div>
 </body>
 </html>

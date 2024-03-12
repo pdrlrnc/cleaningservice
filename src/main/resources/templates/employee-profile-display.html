@@ -3,29 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <style>
+        .custom-padding-top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* This makes the parent container take up the full viewport height */
+        }
+    </style>
 </head>
 <body>
-<table>
-    <tr>
-        <th>Name</th>
-        <td th:text="${employeeProfileDTO.fullName}"></td>
-    </tr>
-    <tr>
-        <th>Address</th>
-        <td th:text="${employeeProfileDTO.address}"></td>
-    </tr>
-    <tr>
-    <tr>
-        <th>Started working</th>
-        <td th:text="${employeeProfileDTO.startedWorking}"></td>
-    </tr>
-    <tr>
-        <th>Years of experience</th>
-        <td th:text="${employeeProfileDTO.yearsOfExperience}"></td>
-    </tr>
-</table>
-<br><br>
-<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/new-applicants}">Go back</a>
-<a sec:authorize="!hasRole('ROLE_ADMIN')" th:href="@{/}">Go back</a>
+<div class="custom-padding-top">
+    <div class="container">
+        <div class="table-responsive">
+            <table  class="table table-info">
+                <tr>
+                    <th>Name</th>
+                    <td th:text="${employeeProfileDTO.fullName}"></td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td th:text="${employeeProfileDTO.address}"></td>
+                </tr>
+                <tr>
+                <tr>
+                    <th>Started working</th>
+                    <td th:text="${employeeProfileDTO.startedWorking}"></td>
+                </tr>
+                <tr>
+                    <th>Years of experience</th>
+                    <td th:text="${employeeProfileDTO.yearsOfExperience}"></td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <button sec:authorize="hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary" onclick="window.location.href='/admin/new-applicants'">Go back</button>
+        <button sec:authorize="!hasRole('ROLE_ADMIN')" type="button" class="btn btn-primary" onclick="window.location.href='/'">Go back</button>
+    </div>
+</div>
 </body>
 </html>

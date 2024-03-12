@@ -1,5 +1,6 @@
 package dev.cleaningservice.service;
 
+import dev.cleaningservice.dto.ClientProfileDTO;
 import dev.cleaningservice.dto.EmployeeProfileDTO;
 import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.validation.EmailAlreadyExistsException;
@@ -17,5 +18,7 @@ public interface UserInfoService {
 
     public UserInfo findUserInfoByEmail(String email);
 
-    EmployeeProfileDTO populateProfileDTO(UserInfo userInfo);
+    EmployeeProfileDTO populateEmployeeProfileDTO(UserInfo userInfo);
+
+    ClientProfileDTO populateClientProfileDTO(UserInfo userInfo);
 }

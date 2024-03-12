@@ -1,5 +1,6 @@
 package dev.cleaningservice.controller;
 
+import dev.cleaningservice.dto.ClientProfileDTO;
 import dev.cleaningservice.dto.EmployeeProfileDTO;
 import dev.cleaningservice.entity.UserEmployee;
 import dev.cleaningservice.entity.UserEntity;
@@ -93,12 +94,16 @@ public class ProfileController {
         System.out.println(userEmployee + ": USEREMPLOYEE\n\n");
 
         if(userEmployee != null) {
-            EmployeeProfileDTO employeeProfileDTO = userInfoService.populateProfileDTO(userInfo);
+            EmployeeProfileDTO employeeProfileDTO = userInfoService.populateEmployeeProfileDTO(userInfo);
 
             model.addAttribute("employeeProfileDTO", employeeProfileDTO);
 
             return "employee-profile-display";
         } else {
+
+            ClientProfileDTO clientProfileDTO = userInfoService.populateClientProfileDTO(userInfo);
+
+            model.addAttribute("clientProfileDTO", clientProfileDTO);
 
             return "client-profile-display";
         }

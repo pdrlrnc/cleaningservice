@@ -2,6 +2,7 @@ package dev.cleaningservice.service;
 
 import dev.cleaningservice.dao.UserEmployeeDAO;
 import dev.cleaningservice.dao.UserInfoDAO;
+import dev.cleaningservice.dto.ClientProfileDTO;
 import dev.cleaningservice.dto.EmployeeProfileDTO;
 import dev.cleaningservice.entity.UserEmployee;
 import dev.cleaningservice.entity.UserInfo;
@@ -72,12 +73,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public EmployeeProfileDTO populateProfileDTO(UserInfo userInfo) {
+    public EmployeeProfileDTO populateEmployeeProfileDTO(UserInfo userInfo) {
 
-        System.out.println("USERINFO: \n\n\n" + userInfo);
         UserEmployee userEmployee = userEmployeeDAO.getByUserInfoID(userInfo.getId());
-        System.out.println("USEREMPLOYEE: \n\n\n" + userEmployee);
-
 
         EmployeeProfileDTO employeeProfileDTO = new EmployeeProfileDTO();
         employeeProfileDTO.setAddress(userInfo.getAddress());
@@ -89,5 +87,17 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
 
         return employeeProfileDTO;
+    }
+
+    @Override
+    public ClientProfileDTO populateClientProfileDTO(UserInfo userInfo) {
+
+        ClientProfileDTO clientProfileDTO = new ClientProfileDTO();
+
+        clientProfileDTO.setName(userInfo.getFirstName());
+        clientProfileDTO.setAddress(userInfo.getAddress());
+        clientProfileDTO.setPhoneNumber(userInfo.getPhoneNumber());
+
+        return clientProfileDTO;
     }
 }
