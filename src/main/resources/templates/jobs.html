@@ -3,29 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Your jobs</title>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <style>
+        #calendar {
+            height: 600px;
+        }
+    </style>
 </head>
 <body>
+<span th:if="not ${#lists.isEmpty(events)}">
+<div  id="calendar"></div>
 
-<div th:if="${not #lists.isEmpty(jobsList)}">
-    <table>
-        <thead>
-        <tr>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Customer</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="appointment : ${jobsList}">
-            <td th:text="${#temporals.format(appointment.startDate, 'dd/MM/yyyy HH:mm')}"></td>
-            <td th:text="${#temporals.format(appointment.endDate, 'dd/MM/yyyy HH:mm')}"></td>
-            <td th:text="${appointment.client.fullName}"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<script th:inline="javascript">
 
-<div th:if="${#lists.isEmpty(jobsList)}">
+    /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function() {
+
+            var events = JSON.parse([[${events}]]);
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridWeek',
+                events: events,
+                loading: function(isLoading) {
+                    if (!isLoading) {
+                        console.log('FullCalendar is fully loaded and ready to display events.');
+                    }
+                }
+            });
+
+            calendar.render();
+        });
+    /*]]>*/
+</script>
+    </span>
+
+<div th:if="${#lists.isEmpty(events)}">
     <p>No jobs found.</p>
 </div>
 <br><br>
