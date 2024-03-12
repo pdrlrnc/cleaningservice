@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <title>Your jobs</title>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
     <style>
         #calendar {
-            height: 600px;
+            width: 100%;
+            margin: 0 auto;
+            themeSystem: 'bootstrap5';
         }
     </style>
 </head>
 <body>
+<div class="container">
 <span th:if="not ${#lists.isEmpty(events)}">
-<div  id="calendar"></div>
+<div id="calendar"></div>
 
 <script th:inline="javascript">
 
@@ -24,14 +29,10 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'timeGridWeek',
-                events: events,
-                loading: function(isLoading) {
-                    if (!isLoading) {
-                        console.log('FullCalendar is fully loaded and ready to display events.');
-                    }
-                }
+                events: events
             });
-
+            var calendarHeight = window.innerHeight * 0.85;
+            calendar.setOption('height', calendarHeight);
             calendar.render();
         });
     /*]]>*/
@@ -42,7 +43,8 @@
     <p>No jobs found.</p>
 </div>
 <br><br>
-<a  th:href="@{/}">Go back</a>
+<button type="button" class="btn btn-primary" onclick="window.location.href='/'">Go back</button>
+</div>
 
 
 </body>
