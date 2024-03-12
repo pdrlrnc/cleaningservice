@@ -9,7 +9,7 @@
 <hr>
 
 <form th:action="@{/profile/edit/save}"
-                 th:object="${profileDTO}" method="POST">
+                 th:object="${employeeProfileDTO}" method="POST">
 
     <!-- Hidden form field to handle update-->
     <input type="hidden" th:field="*{userInfoId}">

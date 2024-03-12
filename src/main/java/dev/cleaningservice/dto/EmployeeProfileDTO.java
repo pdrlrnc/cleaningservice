@@ -1,7 +1,6 @@
 package dev.cleaningservice.dto;
 
 import dev.cleaningservice.validation.MinAge;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -9,10 +8,8 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Period;
 
-public class ProfileDTO {
+public class EmployeeProfileDTO {
 
     private Long userInfoId;
 
@@ -42,10 +39,10 @@ public class ProfileDTO {
 
     private int yearsOfExperience;
 
-    public ProfileDTO() {
+    public EmployeeProfileDTO() {
     }
 
-    public ProfileDTO(Long userInfoId, String username, String email, String firstName, String fullName, Date dateOfBirth, String phoneNumber, String address) {
+    public EmployeeProfileDTO(Long userInfoId, String username, String email, String firstName, String fullName, Date dateOfBirth, String phoneNumber, String address) {
         this.userInfoId = userInfoId;
         this.username = username;
         this.email = email;
@@ -138,7 +135,7 @@ public class ProfileDTO {
 
     @Override
     public String toString() {
-        return "ProfileDTO{" +
+        return "EmployeeProfileDTO{" +
                 "userInfoId=" + userInfoId +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +

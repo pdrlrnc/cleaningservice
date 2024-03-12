@@ -1,6 +1,7 @@
 package dev.cleaningservice.controller;
 
-import dev.cleaningservice.dto.ProfileDTO;
+import dev.cleaningservice.dto.EmployeeProfileDTO;
+import dev.cleaningservice.entity.UserEmployee;
 import dev.cleaningservice.entity.UserEntity;
 import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.service.UserEmployeeService;
@@ -19,8 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 public class ProfileController {
@@ -45,36 +44,36 @@ public class ProfileController {
 
         UserInfo userInfo = userInfoService.findUserInfoByUsername(userEntity.getUsername());
 
-        ProfileDTO profileDTO = new ProfileDTO(userInfo.getId(), userInfo.getUsername(), userInfo.getEmail(),
+        EmployeeProfileDTO employeeProfileDTO = new EmployeeProfileDTO(userInfo.getId(), userInfo.getUsername(), userInfo.getEmail(),
                 userInfo.getFirstName(), userInfo.getFullName(), userInfo.getDateOfBirth(), userInfo.getPhoneNumber(), userInfo.getAddress());
 
-        model.addAttribute("profileDTO", profileDTO);
+        model.addAttribute("employeeProfileDTO", employeeProfileDTO);
 
         return "profile-edit";
     }
 
     @PostMapping("/profile/edit/save")
     public String saveProfile(
-            @Valid @ModelAttribute("profileDTO") ProfileDTO profileDTO,
+            @Valid @ModelAttribute("employeeProfileDTO") EmployeeProfileDTO employeeProfileDTO,
             BindingResult bindingResult, Model model, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("profileDTO", profileDTO);
+            model.addAttribute("employeeProfileDTO", employeeProfileDTO);
             return "profile-edit";
         }
         try {
-            userInfoService.save(profileDTO);
+            userInfoService.save(employeeProfileDTO);
         } catch (EmailAlreadyExistsException eaee) {
-            model.addAttribute("emailError", profileDTO.getEmail() + " is already taken");
+            model.addAttribute("emailError", employeeProfileDTO.getEmail() + " is already taken");
             return "profile";
         } catch (UsernameAlreadyExistsException uaee) {
-            model.addAttribute("usernameError", profileDTO.getUsername() + " is already taken");
+            model.addAttribute("usernameError", employeeProfileDTO.getUsername() + " is already taken");
             return "profile";
         }
 
         HttpSession session = request.getSession();
         UserEntity loggedUser = (UserEntity) session.getAttribute("user");
-        loggedUser.setUsername(profileDTO.getUsername());
+        loggedUser.setUsername(employeeProfileDTO.getUsername());
         session.setAttribute("user", loggedUser);
 
         model = Utils.listEmployees(model, userEmployeeService);
@@ -84,10 +83,24 @@ public class ProfileController {
     @GetMapping("/profile/{userId}")
     public String showProfile(@PathVariable("userId") Long userId, Model model) {
 
-        ProfileDTO profileDTO = userInfoService.populateProfileDTO(userId);
+        System.out.println(userId + ":userID");
 
-        model.addAttribute("profileDTO", profileDTO);
+        UserInfo userInfo = userInfoService.findUserInfoById(userId);
+        System.out.println(userInfo + ": USERINFO\n\n");
 
-        return "profile-display";
+        UserEmployee userEmployee = userEmployeeService.getByUserInfoId(userInfo.getId());
+
+        System.out.println(userEmployee + ": USEREMPLOYEE\n\n");
+
+        if(userEmployee != null) {
+            EmployeeProfileDTO employeeProfileDTO = userInfoService.populateProfileDTO(userInfo);
+
+            model.addAttribute("employeeProfileDTO", employeeProfileDTO);
+
+            return "employee-profile-display";
+        } else {
+
+            return "client-profile-display";
+        }
     }
 }

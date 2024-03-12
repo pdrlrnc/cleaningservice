@@ -45,10 +45,12 @@
                     <a th:href="@{/sign-up}" sec:authorize="!isAuthenticated()" class="nav-link active">Sign up</a>
                 </li>
                 <li class="nav-item active">
-                    <a th:href="@{/profile/appointments}" sec:authorize="isAuthenticated()" class="nav-link active">Appointments</a>
+                    <a th:href="@{/profile/appointments}"
+                       sec:authorize="hasRole('ROLE_CUSTOMER') and !hasRole('ROLE_EMPLOYEE')" class="nav-link active">Appointments</a>
                 </li>
                 <li class="nav-item active">
-                    <a th:href="@{/profile/jobs}" sec:authorize="hasRole('ROLE_EMPLOYEE')" class="nav-link active">Jobs</a>
+                    <a th:href="@{/profile/jobs}" sec:authorize="hasRole('ROLE_EMPLOYEE')"
+                       class="nav-link active">Jobs</a>
                 </li>
                 <li class="nav-item active">
                     <div class="ml-auto">
@@ -86,7 +88,7 @@
         </tr>
         </tbody>
     </table>
-
+    <span sec:authorize="hasRole('ROLE_CUSTOMER') and !hasRole('ROLE_EMPLOYEE')">
     <br><br><br>
     Create your appointment with one of our great cleaners!
     <br>
@@ -106,6 +108,7 @@
           class="p-3 mb-2 bg-warning text-dark"></span>
     <span th:if="${appointmentSuccess ne null}" th:text="*{appointmentSuccess}"
           class="p-3 mb-2 bg-success text-white"></span>
+    </span>
 
     <a th:href="@{/apply}" sec:authorize="!hasRole('ROLE_EMPLOYEE')" style="position: fixed; bottom:   0; right:   0;">Want
         to work for us?</a>

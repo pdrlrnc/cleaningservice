@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class UserInfoDAOImpl implements UserInfoDAO {
 
+
+
     @Autowired
     EntityManager entityManager;
 
@@ -55,6 +57,31 @@ public class UserInfoDAOImpl implements UserInfoDAO {
         TypedQuery<UserEntity> query = entityManager.createQuery(
                 "SELECT u FROM users u WHERE u.username = :username", UserEntity.class);
         query.setParameter("username", username);
+        UserEntity userEntity;
+        try {
+            userEntity = query.getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+
+
+        TypedQuery<UserInfo> query2 = entityManager.createQuery(
+                "SELECT u FROM user_info u WHERE u.userEntity = :user_entity", UserInfo.class);
+        query2.setParameter("user_entity", userEntity);
+        UserInfo userInfo;
+        try {
+            userInfo = query2.getSingleResult();
+        } catch (NoResultException nre) {
+            userInfo = null;
+        }
+        return userInfo;
+    }
+
+    @Override
+    public UserInfo findUserInfoByUserEntityId(Long id) {
+        TypedQuery<UserEntity> query = entityManager.createQuery(
+                "SELECT u FROM users u WHERE u.id = :users_id", UserEntity.class);
+        query.setParameter("users_id", id);
         UserEntity userEntity;
         try {
             userEntity = query.getSingleResult();

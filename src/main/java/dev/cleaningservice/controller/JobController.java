@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -53,10 +54,14 @@ public class JobController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
             String start = appointment.getStartDate().format(formatter);
             String end = appointment.getEndDate().format(formatter);
-
             event.put("start", start);
             event.put("end", end);
+
             event.put("allDay", false);
+
+            String link = ServletUriComponentsBuilder.fromCurrentServletMapping().toUriString() + "/profile/" + appointment.getClient().getId();
+            event.put("link",link);
+
             return event;
         }).collect(Collectors.toList());
 

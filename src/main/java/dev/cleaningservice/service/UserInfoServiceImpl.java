@@ -2,7 +2,7 @@ package dev.cleaningservice.service;
 
 import dev.cleaningservice.dao.UserEmployeeDAO;
 import dev.cleaningservice.dao.UserInfoDAO;
-import dev.cleaningservice.dto.ProfileDTO;
+import dev.cleaningservice.dto.EmployeeProfileDTO;
 import dev.cleaningservice.entity.UserEmployee;
 import dev.cleaningservice.entity.UserInfo;
 import dev.cleaningservice.validation.EmailAlreadyExistsException;
@@ -30,30 +30,30 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void save(ProfileDTO profileDTO) throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
-        UserInfo userInfo = userInfoDAO.findUserInfoById(profileDTO.getUserInfoId());
+    public void save(EmployeeProfileDTO employeeProfileDTO) throws UsernameAlreadyExistsException, EmailAlreadyExistsException {
+        UserInfo userInfo = userInfoDAO.findUserInfoById(employeeProfileDTO.getUserInfoId());
 
-        UserInfo checkUsername = findUserInfoByUsername(profileDTO.getUsername());
-        UserInfo checkEmail = findUserInfoByEmail(profileDTO.getEmail());
+        UserInfo checkUsername = findUserInfoByUsername(employeeProfileDTO.getUsername());
+        UserInfo checkEmail = findUserInfoByEmail(employeeProfileDTO.getEmail());
 
         if(checkUsername != null)
             if(!Objects.equals(checkUsername.getId(), userInfo.getId()))
                 throw new UsernameAlreadyExistsException("that username is already taken!");
 
-        userInfo.setUsername(profileDTO.getUsername());
+        userInfo.setUsername(employeeProfileDTO.getUsername());
 
 
         if(checkEmail != null)
             if(!Objects.equals(checkEmail.getId(), userInfo.getId()))
                 throw new EmailAlreadyExistsException("that email is already taken!");
 
-        userInfo.setEmail(profileDTO.getEmail());
+        userInfo.setEmail(employeeProfileDTO.getEmail());
 
-        userInfo.setFirstName(profileDTO.getFirstName());
-        userInfo.setFullName(profileDTO.getFullName());
-        userInfo.setDateOfBirth(profileDTO.getDateOfBirth());
-        userInfo.setPhoneNumber(profileDTO.getPhoneNumber());
-        userInfo.setAddress(profileDTO.getAddress());
+        userInfo.setFirstName(employeeProfileDTO.getFirstName());
+        userInfo.setFullName(employeeProfileDTO.getFullName());
+        userInfo.setDateOfBirth(employeeProfileDTO.getDateOfBirth());
+        userInfo.setPhoneNumber(employeeProfileDTO.getPhoneNumber());
+        userInfo.setAddress(employeeProfileDTO.getAddress());
 
         userInfoDAO.save(userInfo);
     }
@@ -62,28 +62,32 @@ public class UserInfoServiceImpl implements UserInfoService {
     public UserInfo findUserInfoByUsername(String username) { return userInfoDAO.findUserInfoByUsername(username);  }
 
     @Override
+    public UserInfo findUserInfoByUserEntityId(Long id) {
+        return userInfoDAO.findUserInfoByUserEntityId(id);
+    }
+
+    @Override
     public UserInfo findUserInfoByEmail(String email) {
         return userInfoDAO.findUserInfoByEmail(email);
     }
 
     @Override
-    public ProfileDTO populateProfileDTO(Long userId) {
+    public EmployeeProfileDTO populateProfileDTO(UserInfo userInfo) {
 
-        UserInfo userInfo = findUserInfoById(userId);
         System.out.println("USERINFO: \n\n\n" + userInfo);
-        UserEmployee userEmployee = userEmployeeDAO.getByUserInfoID(userId);
+        UserEmployee userEmployee = userEmployeeDAO.getByUserInfoID(userInfo.getId());
         System.out.println("USEREMPLOYEE: \n\n\n" + userEmployee);
 
 
-        ProfileDTO profileDTO = new ProfileDTO();
-        profileDTO.setAddress(userInfo.getAddress());
-        profileDTO.setFullName(userInfo.getFullName());
+        EmployeeProfileDTO employeeProfileDTO = new EmployeeProfileDTO();
+        employeeProfileDTO.setAddress(userInfo.getAddress());
+        employeeProfileDTO.setFullName(userInfo.getFullName());
 
         if(userEmployee != null){
-            profileDTO.setYearsOfExperience(userEmployee.getYearsOfExperience());
-            profileDTO.setStartedWorking(userEmployee.getStartedWorking());
+            employeeProfileDTO.setYearsOfExperience(userEmployee.getYearsOfExperience());
+            employeeProfileDTO.setStartedWorking(userEmployee.getStartedWorking());
         }
 
-        return profileDTO;
+        return employeeProfileDTO;
     }
 }

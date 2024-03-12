@@ -12,6 +12,9 @@
             margin: 0 auto;
             themeSystem: 'bootstrap5';
         }
+        .fc-event {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -29,7 +32,13 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'timeGridWeek',
-                events: events
+                events: events,
+                eventClick: function(info) {
+                    info.jsEvent.preventDefault();
+                    window.location.href = info.event.extendedProps.link;
+                    info.el.style.borderColor = 'red';
+
+                }
             });
             var calendarHeight = window.innerHeight * 0.85;
             calendar.setOption('height', calendarHeight);

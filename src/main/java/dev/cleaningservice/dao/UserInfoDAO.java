@@ -14,4 +14,6 @@ public interface UserInfoDAO {
 
     public UserInfo findUserInfoByEmail(String email);
 
+    public UserInfo findUserInfoByUserEntityId(Long id);
+
 }
