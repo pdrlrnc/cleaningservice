@@ -3,42 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign up!</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
 </head>
-<body>
-<h3>Profile</h3>
-<hr>
 
-<form th:action="@{/profile/edit/save}"
-                 th:object="${employeeProfileDTO}" method="POST">
+<div class="container">
+    <form th:action="@{/profile/edit/save}" th:object="${employeeProfileDTO}" method="POST" class="row g-3">
+        <!-- Hidden form field to handle update-->
+        <input type="hidden" th:field="*{userInfoId}">
+        <input type="hidden" th:field="*{username}">
 
-    <!-- Hidden form field to handle update-->
-    <input type="hidden" th:field="*{userInfoId}">
+        <!-- Username and Email in the same row -->
+        <div class="col-md-6">
+            <label for="inputUsername">Username</label>
+            <input type="text" class="form-control" th:placeholder="*{username}" id="inputUsername" th:class="${#fields.hasErrors('username')} ? 'is-invalid' : 'is-valid'">
+        </div>
+        <div class="col-md-6">
+            <label for="inputEmail">Email</label>
+            <input type="email" class="form-control" th:field="*{email}" placeholder="email" id="inputEmail" th:class="${#fields.hasErrors('email')} ? 'is-invalid' : 'is-valid'">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+            <div class="invalid-feedback" th:if="${emailError}" th:text="${emailError}"></div>
+        </div>
 
-    <input type="text" th:field="*{username}" placeholder="username">
-    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
-    <span th:if="${usernameError}" th:text="${usernameError}"></span>
-    <br>
-    <input type="text" th:field="*{email}" placeholder="email">
-    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
-    <span th:if="${emailError}" th:text="${emailError}"></span>
-    <br>
-    <input type="text" th:field="*{firstName}" placeholder="first name">
-    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error"></span>
-    <br>
-    <input type="text" th:field="*{fullName}" placeholder="full name">
-    <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="error"></span>
-    <br>
-    <input type="date" th:field="*{dateOfBirth}" pattern="\d{4}-\d{2}-\d{2}">
-    <span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="error"></span>
-    <br>
-    <input type="text" th:field="*{phoneNumber}" placeholder="phone number">
-    <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></span>
-    <br>
-    <input type="text" th:field="*{address}" placeholder="address">
-    <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error"></span>
-    <button type="submit">Save</button>
+        <!-- First Name and Full Name in the next row -->
+        <div class="col-md-6">
+            <label for="inputFirstName">First Name</label>
+            <input type="text" class="form-control" th:field="*{firstName}" placeholder="first name" id="inputFirstName" th:class="${#fields.hasErrors('firstName')} ? 'is-invalid' : 'is-valid'">
+            <div th:if="${#fields.hasErrors('firstName')}" class="invalid-feedback">
+                <span th:errors="*{firstName}"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label for="inputFullName">Full Name</label>
+            <input type="text" class="form-control" th:field="*{fullName}" placeholder="full name" id="inputFullName" th:class="${#fields.hasErrors('fullName')} ? 'is-invalid' : 'is-valid'">
+            <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="invalid-feedback"></div>
+            <div class="invalid-feedback" th:if="${fullNameError}" th:text="${fullName}"></div>
+        </div>
 
-</form>
+        <!-- Date of Birth and Phone Number in the next row -->
+        <div class="col-md-6">
+            <label for="inputDateOfBirth">Date of Birth</label>
+            <input type="date" class="form-control" th:field="*{dateOfBirth}" pattern="\d{4}-\d{2}-\d{2}" id="inputDateOfBirth" th:class="${#fields.hasErrors('dateOfBirth')} ? 'is-invalid' : 'is-valid'">
+            <div th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="invalid-feedback"></div>
+            <div class="invalid-feedback" th:if="${dateOfBirthError}" th:text="${dateOfBirth}"></div>
+        </div>
+        <div class="col-md-6">
+            <label for="inputPhoneNumber">Phone Number</label>
+            <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="phone number" id="inputPhoneNumber" th:class="${#fields.hasErrors('phoneNumber')} ? 'is-invalid' : 'is-valid'">
+            <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="invalid-feedback"></div>
+            <div class="invalid-feedback" th:if="${phoneNumberErrors}" th:text="${phoneNumber}"></div>
+        </div>
+
+        <!-- Address in the last row -->
+        <div class="col-12">
+            <label for="inputAddress">Address</label>
+            <input type="text" class="form-control" th:field="*{address}" placeholder="address" id="inputAddress" th:class="${#fields.hasErrors('address')} ? 'is-invalid' : 'is-valid'">
+            <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="invalid-feedback"></div>
+            <div class="invalid-feedback" th:if="${addressErrors}" th:text="${address}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href='/'">Go back</button>
+    </form>
+</div>
+
+
+<!-- The following JS will help us with invalid inputs, doesn't let spaces where it shouldn't
+ and numeric/letters also-->
+
+<script>
+    // Function to prevent spaces
+    function preventSpaces(e) {
+        if (e.key === ' ') {
+            e.preventDefault();
+        }
+    }
+
+    // Function to prevent numbers in inputFirstName
+    function preventNumbers(e) {
+        if (!isNaN(e.key)) {
+            e.preventDefault();
+        }
+    }
+
+    // Function to prevent letters in inputPhoneNumber and allow specific keys
+    function preventLetters(e) {
+        const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+        if (isNaN(e.key) && !allowedKeys.includes(e.key)) {
+            e.preventDefault();
+        }
+    }
+
+    // Apply preventSpaces to inputEmail
+    document.querySelectorAll('#inputEmail').forEach(element => {
+        element.addEventListener('keydown', preventSpaces);
+    });
+
+    // Apply preventNumbers to inputFirstName
+    document.querySelectorAll('#inputFirstName').forEach(element => {
+        element.addEventListener('keydown', preventNumbers);
+    });
+
+    // Apply preventLetters and preventSpaces to inputPhoneNumber
+    document.getElementById('inputPhoneNumber').addEventListener('keydown', preventLetters);
+    document.getElementById('inputPhoneNumber').addEventListener('keydown', preventSpaces);
+
+
+</script>
 
 </body>
 </html>

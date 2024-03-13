@@ -21,7 +21,6 @@ public class EmployeeProfileDTO {
     private String email;
 
     @NotEmpty(message = "First name is required")
-    @Length(min = 1, message = "First name is required")
     private String firstName;
 
     private String fullName;

@@ -58,6 +58,8 @@ public class ProfileController {
             @Valid @ModelAttribute("employeeProfileDTO") EmployeeProfileDTO employeeProfileDTO,
             BindingResult bindingResult, Model model, HttpServletRequest request) {
 
+        System.out.println(employeeProfileDTO);
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("employeeProfileDTO", employeeProfileDTO);
             return "profile-edit";
@@ -79,7 +81,7 @@ public class ProfileController {
 
         model = Utils.listEmployees(model, userEmployeeService);
 
-        return "home";
+        return "profile-edit";
     }
     @GetMapping("/profile/{userId}")
     public String showProfile(@PathVariable("userId") Long userId, Model model) {
